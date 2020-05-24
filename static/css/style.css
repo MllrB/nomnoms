@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Crafty+Girls&family=Dokdo&family=Gaegu:wght@300&family=Indie+Flower&family=Long+Cang&family=Piedra&family=Raleway:wght@100&family=Schoolbell&family=Swanky+and+Moo+Moo&family=The+Girl+Next+Door&display=swap');
+.container {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+}
+
+body {
+    background-color: rgb(245, 244, 244);
+}
+
+hr {
+    width: 70%;
+    height: 3px;
+}
+
+.logo {
+    /* text-align: center; */
+}
+
+.main {
+    margin-left: 50px;
+    padding-left: 20px;
+    text-align: left;
+    height: 100%;
+}
+
+.girl {
+    font-family: 'The Girl Next Door', sans-serif;
+}
+
+.piedra {
+    font-family: 'piedra', sans-serif;
+}
+
+.crafty {
+    font-family: 'Crafty Girls', sans-serif;
+}
+
+.dokdo {
+    font-family: 'Dokdo', sans-serif;
+}
+
+.gaegu {
+    font-family: 'Gaegu', sans-serif;
+    font-size: 1.3em;
+}
+
+.indie {
+    font-family: 'Indie Flower', sans-serif;
+}
+
+.cang {
+    font-family: 'Long Cang', sans-serif;
+}
+
+.school {
+    font-family: 'Schoolbell', sans-serif;
+}
+
+.swanky {
+    font-family: 'Swanky and Moo Moo', sans-serif;
+}
+
+.raleway {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+}
