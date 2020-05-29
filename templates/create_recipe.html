@@ -1,2 +1,105 @@
 {% extends 'base.html' %} {% block content %}
-<h1>add a recipe</h1>{% endblock %}
+<h3>add a recipe</h3>
+<div class="row">
+    <form action="{{url_for('add_recipe')}}" method="POST" class="col s12">
+        <div class="row">
+            <div class="input-field col s12">
+                <i class="material-icons prefix">title</i>
+                <input id="icon_prefix" name='title' type="text" class="validate">
+                <label for="icon_prefix">Recipe Name</label>
+            </div>
+            <div class="row">
+                <div class="col s6">
+                    <div class="input-field col s4">
+                        <i class="material-icons prefix">local_dining</i>
+                        <input id="ingredient" type="text" class="validate">
+                        <label for="ingredient">Ingredients</label>
+                    </div>
+                    <div class="input-field col s2">
+                        <input id="quantity" type="text" class="validate">
+                        <label for="quantity">Quantity</label>
+                    </div>
+                    <div class="input-field col s4">
+                        <select id="measurements">
+                            <option id="default-select" value="" disabled selected>Measurement</option>
+                            {% for measure in measurement %}
+                            <option value="{{measure}}">{{measure}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col s2">
+                        <a id='add-ingredients' class="btn-floating btn-large waves-effect waves-light green"><i class="material-icons">add</i></a>
+                    </div>
+                    <div class="input-field col s12">
+                        <h5>Ingredients:</h5>
+                        <div id='ingredient-list'></div>
+                    </div>
+                </div>
+                <div class="col s6">
+                    <div class="row">
+                        <div class="input-field col s10">
+                            <textarea id="steps-input" class="materialize-textarea"></textarea>
+                            <label for="steps-input">Add a step</label>
+                        </div>
+                        <div class="col s2">
+                            <a id='add-step' class="btn-floating btn-large waves-effect waves-light green"><i class="material-icons">add</i></a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <h5>Steps:</h5>
+                            <div id="steps-list" class="input-field"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">Before saving the recipe you need to enter a 4 digit pin. This pin is simply to protect your recipe from unwanted editing so you can keep this pin as private or public as you like, there is no accompanying personal identity information stored
+                with it.</div>
+            <div class="input-field col s3">
+                <i class="material-icons prefix">lock</i>
+                <input id="pin" type="text" name="pin" class="validate" required>
+                <label for="pin">4 digit pin</label>
+            </div>
+            <div class="input-field col s9">
+                <button class="btn waves-effect waves-light" type="submit">Save Recipe
+                    <i class="material-icons right">save</i>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock %} {% block extra_scripts %}
+<script>
+    var ingredientsList = '';
+    var addIngredientsButton = document.getElementById('add-ingredients');
+    addIngredientsButton.addEventListener('click', () => {
+        var ingredient = document.getElementById('ingredient').value;
+        var quantity = document.getElementById('quantity').value;
+        var measurement = document.getElementById('measurements').value;
+        if (measurement === 'qty') {
+            ingredientsList += `${quantity} ${ingredient.toLowerCase()}\r\n`;
+        } else {
+            ingredientsList += `${quantity} ${measurement} of ${ingredient.toLowerCase()}\r\n`;
+        }
+
+        document.getElementById('ingredient-list').innerHTML = `<textarea name='ingredients' class="results-textarea">${ingredientsList}</textarea>`;
+
+        document.getElementById('ingredient').value = '';
+        document.getElementById('quantity').value = '';
+        $('select').prop('selectedIndex', 0);
+        $('select').formSelect();
+    });
+
+    var steps = '';
+    var addStepsButton = document.getElementById('add-step');
+    addStepsButton.addEventListener('click', () => {
+        var stepToAdd = document.getElementById('steps-input');
+        steps += `${stepToAdd.value}\r\n`;
+        document.getElementById('steps-list').innerHTML = `<textarea name='steps' class="results-textarea">${steps}</textarea>`;
+        document.getElementById('steps-input').value = '';
+    });
+</script>
+{% endblock %}
