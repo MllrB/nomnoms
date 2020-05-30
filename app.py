@@ -13,12 +13,23 @@ app.config["MONGO_URI"] = os.getenv("MONGO_URI")
 
 mongo = PyMongo(app)
 
-list_of_measurements = ['qty', 'grams', 'kilos', 'ml', 'oz', 'lb', 'cups', 'tbsp', 'tsp']
-
 @app.route('/')
-@app.route('/create_recipe/<measurement>')
+@app.route('/home')
+def home():
+    return render_template('index.html')
+
+@app.route('/browse_recipes')
+def browse_recipes():
+    recipes = mongo.db.scrambledeggs.find()
+    return render_template('recipe.html', recipes = recipes)
+
+@app.route('/create_recipe')
 def create_recipe():
-    return render_template('create_recipe.html', measurement=list_of_measurements)
+    measurements_list = mongo.db.optionalTypes.find_one({'name': 'measurements'})['values']
+    categories = mongo.db.optionalTypes.find_one({'name': 'recipe_type'})['values']
+    extra_info = mongo.db.optionalTypes.find_one({'name': 'recipe_info'})['values']
+
+    return render_template('create_recipe.html', measurements=measurements_list, categories=categories, recipe_info=extra_info)
 
 @app.route('/add_recipe', methods=['POST'])
 def add_recipe():

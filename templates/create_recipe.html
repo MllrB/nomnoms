@@ -22,7 +22,7 @@
                     <div class="input-field col s4">
                         <select id="measurements">
                             <option id="default-select" value="" disabled selected>Measurement</option>
-                            {% for measure in measurement %}
+                            {% for measure in measurements %}
                             <option value="{{measure}}">{{measure}}</option>
                             {% endfor %}
                         </select>
@@ -46,7 +46,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col s12">
                             <h5>Steps:</h5>
                             <div id="steps-list" class="input-field"></div>
                         </div>
@@ -55,14 +55,39 @@
             </div>
         </div>
         <div class="row">
+            <div class="input-field col s4">
+                <span>Select the category that best fits your recipe:</span>
+                <select id="recipe_category" name='category'>
+                    <option id="default-select" value="" disabled selected >Category</option>
+                    {% for category in categories %}
+                    <option value="{{category}}">{{category}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="input-field col s8">
+                <div class="col s12">Select all the options relevant to your recipe:</div> {% for value in recipe_info %}
+                <div class="col">
+                    <label>
+                        <input type="checkbox" name="{{value}}" />
+                        <span>{{value}}</span>
+                    </label>
+                </div> {% endfor %}
+            </div>
+        </div>
+        <div class="row">
             <div class="col s12">Before saving the recipe you need to enter a 4 digit pin. This pin is simply to protect your recipe from unwanted editing so you can keep this pin as private or public as you like, there is no accompanying personal identity information stored
-                with it.</div>
+                with it. The pin is required but you don't have to enter your name if you prefer not to.</div>
+            <div class="input-field col s3">
+                <i class="material-icons prefix">person</i>
+                <input id="owner" type="text" name="owner" class="validate">
+                <label for="owner">Your name</label>
+            </div>
             <div class="input-field col s3">
                 <i class="material-icons prefix">lock</i>
                 <input id="pin" type="text" name="pin" class="validate" required>
                 <label for="pin">4 digit pin</label>
             </div>
-            <div class="input-field col s9">
+            <div class="input-field col s6">
                 <button class="btn waves-effect waves-light" type="submit">Save Recipe
                     <i class="material-icons right">save</i>
                 </button>
@@ -79,8 +104,11 @@
         var ingredient = document.getElementById('ingredient').value;
         var quantity = document.getElementById('quantity').value;
         var measurement = document.getElementById('measurements').value;
+        //console.log(`Ingredient: ${ingredient}, quantity: ${quantity}, measurement: ${measurement}`);
         if (measurement === 'qty') {
             ingredientsList += `${quantity} ${ingredient.toLowerCase()}\r\n`;
+        } else if (measurement == '' && quantity == '') {
+            ingredientsList += ingredient[0].toUpperCase() + ingredient.slice(1).toLowerCase() + '\r\n';
         } else {
             ingredientsList += `${quantity} ${measurement} of ${ingredient.toLowerCase()}\r\n`;
         }
