@@ -8,8 +8,26 @@
                 <div class="collapsible-header"><i class="material-icons">filter_drama</i>{{recipe.title}}</div>
                 <div class="row collapsible-body">
 
-                    <div class="col s3">{{recipe.ingredients}}</div>
-                    <div class="col s9">{{recipe.steps}}</div>
+                    <div class="col s3">
+                        <ul>
+                            {% for ingredient in recipe.ingredients %}
+                            <li>
+                                {% if ingredient['quantity'] == '' and ingredient['measurement'] == '' %}
+                                <span>{{ingredient['ingredient-name']}}</span> {% else %}
+                                <span>{{ingredient['quantity']}} {{ingredient['measurement']}} of {{ingredient['ingredient-name']}}</span> {% endif %}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="col s9">
+                        <ul>
+                            {% for step in recipe.steps %}
+                            <li>
+                                <p>{{step}}</p>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
 
                 </div>
             </li>

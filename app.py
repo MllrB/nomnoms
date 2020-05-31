@@ -59,6 +59,29 @@ def add_recipe():
 
     return redirect(url_for('create_recipe'))
 
+@app.route('/edit_recipe')
+def edit_recipe():
+    return render_template('edit_recipe.html', doc_not_found=False)
+
+@app.route('/find_recipe_to_edit', methods=['POST'])
+def find_recipe_to_edit():
+    if request.method == 'POST':
+        pincode = request.form.to_dict()
+        recipes = mongo.db.scrambledeggs.find({'pin':pincode['pin']})
+        no_of_docs = mongo.db.scrambledeggs.count_documents({'pin':pincode['pin']})
+        
+        if no_of_docs > 0:
+            return render_template('choose_recipe_to_edit.html', recipes=recipes)
+        else:
+            return render_template('edit_recipe.html', doc_not_found=True)
+
+    return redirect(url_for('home'))
+
+@app.route('/update_recipe/<recipe_id>', methods=['POST'])
+def update_recipe(recipe_id):
+    recipe = mongo.db.scrambledeggs.find_one({'_id': recipe_id})
+    return render_template('update_recipe.html', recipe=recipe)
+    
 
 if __name__ =='__main__':
     app.run(host=os.environ.get('IP'), port=os.environ.get('PORT'), debug=True)

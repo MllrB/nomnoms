@@ -18,7 +18,7 @@
             <ul class="right hide-on-med-and-down">
                 <li><a href="{{ url_for('browse_recipes') }}">Browse Recipes</a></li>
                 <li><a href="{{ url_for('create_recipe') }}">Add a recipe</a></li>
-                <li><a href="">Edit your recipes</a></li>
+                <li><a href="{{ url_for('edit_recipe') }}">Edit your recipes</a></li>
                 <li><a href="">Remove a recipe</a></li>
             </ul>
         </div>
@@ -27,7 +27,7 @@
     <ul class="sidenav" id="mobile-demo">
         <li><a href="{{ url_for('browse_recipes') }}">Browse Recipes</a></li>
         <li><a href="{{ url_for('create_recipe') }}">Add a recipe</a></li>
-        <li><a href="">Edit your recipes</a></li>
+        <li><a href="{{ url_for('edit_recipe') }}">Edit your recipes</a></li>
         <li><a href="">Remove a recipe</a></li>
     </ul>
     {% block content %} {% endblock %}
