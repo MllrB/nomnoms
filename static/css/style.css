@@ -68,7 +68,5 @@ hr {
 }
 
 .hidden-element {
-    visibility: collapse;
-    width: 0;
-    height: 0;
+    display: none;
 }

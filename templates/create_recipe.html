@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% block content %}
 <h3>add a recipe</h3>
 <div class="row">
-    <form action="{{url_for('add_recipe')}}" method="POST" class="col s12">
+    <form action="{{url_for('add_recipe')}}" method="POST" class="col s12" name="addRecipeForm">
         <div class="row">
             <div class="input-field col s12">
                 <i class="material-icons prefix">title</i>
@@ -32,7 +32,10 @@
                     </div>
                     <div class="input-field col s12">
                         <h5>Ingredients:</h5>
-                        <div id='ingredient-list'></div>
+                        <div class="hidden-element">
+                            <textarea name="ingredients" id="ingredients-list"></textarea>
+                        </div>
+                        <div id='ingredients-to-display'></div>
                     </div>
                 </div>
                 <div class="col s6">
@@ -48,7 +51,12 @@
                     <div class="row">
                         <div class="col s12">
                             <h5>Steps:</h5>
-                            <div id="steps-list" class="input-field"></div>
+                            <div class="hidden-element">
+                                <textarea name="steps" id="steps-list"></textarea>
+                            </div>
+                            <div class="col s12">
+                                <ul id="steps-to-display"></ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -99,34 +107,41 @@
 {% endblock %} {% block extra_scripts %}
 <script>
     var ingredientsList = '';
+    var visibleIngredientsList = '';
     var addIngredientsButton = document.getElementById('add-ingredients');
     addIngredientsButton.addEventListener('click', () => {
         var ingredient = document.getElementById('ingredient').value;
         var quantity = document.getElementById('quantity').value;
         var measurement = document.getElementById('measurements').value;
-        //console.log(`Ingredient: ${ingredient}, quantity: ${quantity}, measurement: ${measurement}`);
+
+        // Processing output being sent to db
+        ingredientsList += `{'ingredient-name': '${ingredient}', 'quantity': '${quantity}', 'measurement': '${measurement}'}<br>`;
+        document.getElementById('ingredients-list').innerHTML = ingredientsList;
+
+        // Processing output Visible to user
         if (measurement === 'qty') {
-            ingredientsList += `${quantity} ${ingredient.toLowerCase()}\r\n`;
+            visibleIngredientsList += `<li>${quantity} ${ingredient.toLowerCase()}</li>`;
         } else if (measurement == '' && quantity == '') {
-            ingredientsList += ingredient[0].toUpperCase() + ingredient.slice(1).toLowerCase() + '\r\n';
+            visibleIngredientsList += `<li>${ingredient[0].toUpperCase() + ingredient.slice(1).toLowerCase()}</li>`;
         } else {
-            ingredientsList += `${quantity} ${measurement} of ${ingredient.toLowerCase()}\r\n`;
+            visibleIngredientsList += `<li>${quantity} ${measurement} of ${ingredient.toLowerCase()}<li>`;
         }
+        document.getElementById('ingredients-to-display').innerHTML = `<ul>${visibleIngredientsList}</ul>`;
 
-        document.getElementById('ingredient-list').innerHTML = `<textarea name='ingredients' class="results-textarea">${ingredientsList}</textarea>`;
-
+        // Reset input elements for new ingredient
         document.getElementById('ingredient').value = '';
         document.getElementById('quantity').value = '';
         $('select').prop('selectedIndex', 0);
         $('select').formSelect();
     });
 
-    var steps = '';
+    var stepsToAdd = '';
     var addStepsButton = document.getElementById('add-step');
     addStepsButton.addEventListener('click', () => {
-        var stepToAdd = document.getElementById('steps-input');
-        steps += `${stepToAdd.value}\r\n`;
-        document.getElementById('steps-list').innerHTML = `<textarea name='steps' class="results-textarea">${steps}</textarea>`;
+        var steps = document.getElementById('steps-input').value;
+        stepsToAdd += `${steps}<br>`;
+        document.getElementById('steps-list').innerHTML = `${stepsToAdd}`;
+        document.getElementById('steps-to-display').innerHTML = stepsToAdd;
         document.getElementById('steps-input').value = '';
     });
 </script>
