@@ -21,18 +21,16 @@ def recipe_init():
     'ingredients': [],
     'steps': [],
     'category': '',
-    'omnivorous': 'off',
-    'vegetarian': 'off',
-    'vegan': 'off',
-    'dairy_free': 'off',
-    'gluten_free': 'off',
-    'nut_free': 'off',
-    'breakfast': 'off',
-    'lunch': 'off',
-    'dinner': 'off',
-    'snack': 'off',
     'owner': '',
     'pin': ''}
+
+    # add key value pairs for recipe filters and allow for additions/deletions to filter keywords at db level
+    recipe_info = mongo.db.optionalTypes.find_one({'name': 'recipe_info'})
+    for key in recipe_info['dietary']:
+        blank_recipe[key] = 'off'
+    
+    for key in recipe_info['meal']:
+        blank_recipe[key] = 'off'
 
     return blank_recipe
 
@@ -53,9 +51,9 @@ def create_recipe():
     # displays the create recipe page
     measurements_list = mongo.db.optionalTypes.find_one({'name': 'measurements'})['values']
     categories = mongo.db.optionalTypes.find_one({'name': 'recipe_type'})['values']
-    extra_info = mongo.db.optionalTypes.find_one({'name': 'recipe_info'})['values']
+    recipe_info = mongo.db.optionalTypes.find_one({'name': 'recipe_info'})
 
-    return render_template('create_recipe.html', measurements=measurements_list, categories=categories, recipe_info=extra_info)
+    return render_template('create_recipe.html', measurements=measurements_list, categories=categories, recipe_info=recipe_info)
 
 @app.route('/add_recipe/', methods=['POST'])
 def add_recipe():
@@ -85,7 +83,7 @@ def add_recipe():
 
         # replace values in blank document with form data
         for key in recipe_holder:
-            recipe_to_add[key.lower()] = recipe_holder[key]
+            recipe_to_add[key] = recipe_holder[key]
         
         # insert new recipe document in db
         recipe_db_connection = mongo.db.scrambledeggs

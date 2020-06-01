@@ -63,7 +63,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="input-field col s4">
+            <div class="input-field col s12">
                 <span>Select the category that best fits your recipe:</span>
                 <select id="recipe_category" name='category'>
                     <option id="default-select" value="" disabled selected >Category</option>
@@ -72,36 +72,54 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="input-field col s8">
-                <div class="col s12">Select all the options relevant to your recipe:</div> {% for value in recipe_info %}
-                <div class="col">
-                    <label>
-                        <input type="checkbox" name="{{value}}" />
-                        <span>{{value}}</span>
-                    </label>
-                </div> {% endfor %}
+            <div class="input-field col s12">
+                <div class="col s12">
+                    <p>Select all the options relevant to your recipe. The more you provide, the easier it will be for others to find your recipe.
+                    </p>
+                </div>
+                <div class="col s6">
+                    Dietary Information: {% for dietary_info in recipe_info.dietary %}
+                    <div class="col s12">
+                        <label>
+                            <input type="checkbox" name="{{dietary_info}}" />
+                            <span>{{dietary_info}}</span>
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="col s6">
+                    Meal Type: {% for meal in recipe_info.meal %}
+                    <div class="col s12">
+                        <label>
+                            <input type="checkbox" name="{{meal}}" />
+                            <span>{{meal}}</span>
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col s12">Before saving the recipe you need to enter a 4 digit pin. This pin is simply to protect your recipe from unwanted editing so you can keep this pin as private or public as you like, there is no accompanying personal identity information stored
-                with it. The pin is required but you don't have to enter your name if you prefer not to.</div>
-            <div class="input-field col s3">
-                <i class="material-icons prefix">person</i>
-                <input id="owner" type="text" name="owner" class="validate">
-                <label for="owner">Your name</label>
-            </div>
-            <div class="input-field col s3">
-                <i class="material-icons prefix">lock</i>
-                <input id="pin" type="text" name="pin" class="validate" required>
-                <label for="pin">4 digit pin</label>
-            </div>
-            <div class="input-field col s6">
-                <button class="btn waves-effect waves-light" type="submit">Save Recipe
+</div>
+<div class="row">
+    <div class="col s12">Before saving the recipe you need to enter a 4 digit pin. This pin is simply to protect your recipe from unwanted editing so you can keep this pin as private or public as you like, there is no accompanying personal identity information stored with
+        it. The pin is required but you don't have to enter your name if you prefer not to.</div>
+    <div class="input-field col s3">
+        <i class="material-icons prefix">person</i>
+        <input id="owner" type="text" name="owner" class="validate">
+        <label for="owner">Your name</label>
+    </div>
+    <div class="input-field col s3">
+        <i class="material-icons prefix">lock</i>
+        <input id="pin" type="password" name="pin" class="validate" required>
+        <label for="pin">4 digit pin</label>
+    </div>
+    <div class="input-field col s6">
+        <button class="btn waves-effect waves-light" type="submit">Save Recipe
                     <i class="material-icons right">save</i>
                 </button>
-            </div>
-        </div>
-    </form>
+    </div>
+</div>
+</form>
 </div>
 
 {% endblock %} {% block extra_scripts %}
