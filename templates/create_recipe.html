@@ -115,8 +115,8 @@
     </div>
     <div class="input-field col s6">
         <button class="btn waves-effect waves-light" type="submit">Save Recipe
-                    <i class="material-icons right">save</i>
-                </button>
+            <i class="material-icons right">save</i>
+        </button>
     </div>
 </div>
 </form>
@@ -125,15 +125,17 @@
 {% endblock %} {% block extra_scripts %}
 <script>
     var ingredientsList = '';
+    var ingredientNumber = 0;
     var visibleIngredientsList = '';
     var addIngredientsButton = document.getElementById('add-ingredients');
     addIngredientsButton.addEventListener('click', () => {
+        ingredientNumber++;
         var ingredient = document.getElementById('ingredient').value;
         var quantity = document.getElementById('quantity').value;
         var measurement = document.getElementById('measurements').value;
 
         // Processing output being sent to db
-        ingredientsList += `{'ingredient-name': '${ingredient}', 'quantity': '${quantity}', 'measurement': '${measurement}'}<br>`;
+        ingredientsList += `{'ingredient_id': 'ingredient_${ingredientNumber.toString()}','ingredient_name': '${ingredient}', 'quantity': '${quantity}', 'measurement': '${measurement}'}<br>`;
         document.getElementById('ingredients-list').innerHTML = ingredientsList;
 
         // Processing output Visible to user
@@ -154,12 +156,17 @@
     });
 
     var stepsToAdd = '';
+    var visibleSteps = '';
+    var stepNumber = 0;
     var addStepsButton = document.getElementById('add-step');
     addStepsButton.addEventListener('click', () => {
+        stepNumber++;
         var steps = document.getElementById('steps-input').value;
-        stepsToAdd += `${steps}<br>`;
-        document.getElementById('steps-list').innerHTML = `${stepsToAdd}`;
-        document.getElementById('steps-to-display').innerHTML = stepsToAdd;
+        stepsToAdd += `{<p>step_id<p>: <p>step_${stepNumber.toString()}<p>, <p>step<p>: <p>${steps}<p>}<br>`;
+        document.getElementById('steps-list').innerHTML = stepsToAdd;
+
+        visibleSteps += `${steps}<br>`;
+        document.getElementById('steps-to-display').innerHTML = visibleSteps;
         document.getElementById('steps-input').value = '';
     });
 </script>

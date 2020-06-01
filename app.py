@@ -1,5 +1,6 @@
 import os
 import ast
+import json
 from flask import Flask, render_template, redirect, request, url_for
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
@@ -66,10 +67,26 @@ def add_recipe():
         recipe_holder = request.form.to_dict()
         # processing steps info from <textarea> into an array so each step 
         # can be treated separately upon retrieval from mongodb
+        
+        # steps_string_holder = recipe_holder['steps']
+        # steps_string_holder = steps_string_holder.replace('"', "'")
+        # steps_holder = steps_string_holder.replace('<p>', '"')
         steps_holder = recipe_holder['steps']
+
+        # There is a need to replace any instances of double quotes to avoid errors when converting 
+        # string to dict object using json.loads()
+        # First replace any double quotes with single quotes
+        steps_holder = steps_holder.replace('"', "'")
+        # then replace <p> with double quotes, 
+        # <p> simply used in place of double quotes in form data to avoid being replaced in first replace operation
+        steps_holder = steps_holder.replace('<p>', '"')
+
         steps = steps_holder.split('<br>')
         if len(steps) >= 1 :
             steps.pop()
+            for i, val in enumerate(steps):
+                steps[i] = json.loads(val)
+                
         recipe_holder['steps'] = steps
         # processing ingredients/quantity/measurement info from <textarea> 
         # into an array so each step can be treated separately upon retrieval from mongodb
@@ -115,9 +132,9 @@ def update_recipe(recipe_id):
 
     measurements_list = mongo.db.optionalTypes.find_one({'name': 'measurements'})['values']
     categories = mongo.db.optionalTypes.find_one({'name': 'recipe_type'})['values']
-    extra_info = mongo.db.optionalTypes.find_one({'name': 'recipe_info'})['values']
+    recipe_info = mongo.db.optionalTypes.find_one({'name': 'recipe_info'})
 
-    return render_template('update_recipe.html', recipe=recipe, measurements=measurements_list, categories=categories, recipe_info=extra_info)
+    return render_template('update_recipe.html', recipe=recipe, measurements=measurements_list, categories=categories, recipe_info=recipe_info)
     
 
 if __name__ =='__main__':

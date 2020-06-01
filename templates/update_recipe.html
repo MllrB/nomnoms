@@ -8,144 +8,46 @@
                 <input id="icon_prefix" name='title' type="text" class="validate" value="{{recipe.title}}">
                 <label for="icon_prefix">Recipe Name</label>
             </div>
-            <div class="row">
-                <div class="col s6">
-                    <div class="input-field col s4">
-                        <i class="material-icons prefix">local_dining</i>
-                        <input id="ingredient" type="text" class="validate">
-                        <label for="ingredient">Ingredients</label>
-                    </div>
-                    <div class="input-field col s2">
-                        <input id="quantity" type="text" class="validate">
-                        <label for="quantity">Quantity</label>
-                    </div>
-                    <div class="input-field col s4">
-                        <select id="measurements">
-                            <option id="default-select" value="" disabled selected>Measurement</option>
-                            {% for measure in measurements %}
-                            <option value="{{measure}}">{{measure}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="col s2">
-                        <a id='add-ingredients' class="btn-floating btn-large waves-effect waves-light green"><i class="material-icons">add</i></a>
-                    </div>
-                    <div class="input-field col s12">
-                        <h5>Ingredients:</h5>
-                        <div class="hidden-element">
-                            <textarea name="ingredients" id="ingredients-list"></textarea>
-                        </div>
-                        <div id='ingredients-to-display'></div>
-                    </div>
-                </div>
-                <div class="col s6">
-                    <div class="row">
-                        <div class="input-field col s10">
-                            <textarea id="steps-input" class="materialize-textarea"></textarea>
-                            <label for="steps-input">Add a step</label>
-                        </div>
-                        <div class="col s2">
-                            <a id='add-step' class="btn-floating btn-large waves-effect waves-light green"><i class="material-icons">add</i></a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col s12">
-                            <h5>Steps:</h5>
-                            <div class="hidden-element">
-                                <textarea name="steps" id="steps-list"></textarea>
-                            </div>
-                            <div class="col s12">
-                                <ul id="steps-to-display"></ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
         <div class="row">
-            <div class="input-field col s4">
-                <span>Select the category that best fits your recipe:</span>
-                <select id="recipe_category" name='category'>
-                    {% for category in categories %}
-                        {% if category == recipe.category %}
-                            <option value="{{category}}" selected>{{category}}</option>
+            <div class="col s4">
+                <table>
+                    <tr>
+                        <th>Ingredient</th>
+                        <th>Quantity</th>
+                        <th>Measurement</th>
+                        <th> </th>
+                    </tr>
+                    {% for ingredient in recipe.ingredients %}
+                    <tr>
+                        <td><input id="icon_prefix" name='title' type="text" class="validate" value="{{ingredient.ingredient_name}}"></td>
+                        <td><input id="icon_prefix" name='title' type="text" class="validate" value="{{ingredient.quantity}}"></td>
+                        <td><select id="measurements">
+                        {% for measure in measurements %}
+                        {% if measure == ingredient.measurement %}
+                            <option value="{{measure}}" selected>{{measure}}</option>
                         {% else %}
-                            <option value="{{category}}">{{category}}</option>
+                            <option value="{{measure}}" >{{measure}}</option>
                         {% endif %}
+                        {% endfor %}
+                    </select></td>
+                    </tr>
                     {% endfor %}
-                </select>
+                </table>
             </div>
-            <div class="input-field col s8">
-                <div class="col s12">Select all the options relevant to your recipe:</div> {% for value in recipe_info %}
-                <div class="col">
-                    <label>
-                        <input type="checkbox" name="{{value}}" />
-                        <span>{{value}}</span>
-                    </label>
-                </div> {% endfor %}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col s12">Before saving the recipe you need to enter a 4 digit pin. This pin is simply to protect your recipe from unwanted editing so you can keep this pin as private or public as you like, there is no accompanying personal identity information stored
-                with it. The pin is required but you don't have to enter your name if you prefer not to.</div>
-            <div class="input-field col s3">
-                <i class="material-icons prefix">person</i>
-                <input id="owner" type="text" name="owner" class="validate">
-                <label for="owner">Your name</label>
-            </div>
-            <div class="input-field col s3">
-                <i class="material-icons prefix">lock</i>
-                <input id="pin" type="text" name="pin" class="validate" required>
-                <label for="pin">4 digit pin</label>
-            </div>
-            <div class="input-field col s6">
-                <button class="btn waves-effect waves-light" type="submit">Save Recipe
-                    <i class="material-icons right">save</i>
-                </button>
+            <div class="col s8">
+                <table>
+                    <tr>
+                        <th>Edit Steps:</th>
+                    </tr>
+                    {% for step in recipe.steps %}
+                    <tr>
+                        <td><textarea id="steps-input" class="materialize-textarea">{{step}}</textarea></td>
+                    </tr>
+                    {% endfor %}
+                </table>
             </div>
         </div>
     </form>
 </div>
-
-{% endblock %} {% block extra_scripts %}
-<script>
-    var ingredientsList = '';
-    var visibleIngredientsList = '';
-    var addIngredientsButton = document.getElementById('add-ingredients');
-    addIngredientsButton.addEventListener('click', () => {
-        var ingredient = document.getElementById('ingredient').value;
-        var quantity = document.getElementById('quantity').value;
-        var measurement = document.getElementById('measurements').value;
-
-        // Processing output being sent to db
-        ingredientsList += `{'ingredient-name': '${ingredient}', 'quantity': '${quantity}', 'measurement': '${measurement}'}<br>`;
-        document.getElementById('ingredients-list').innerHTML = ingredientsList;
-
-        // Processing output Visible to user
-        if (measurement === 'qty') {
-            visibleIngredientsList += `<li>${quantity} ${ingredient.toLowerCase()}</li>`;
-        } else if (measurement == '' && quantity == '') {
-            visibleIngredientsList += `<li>${ingredient[0].toUpperCase() + ingredient.slice(1).toLowerCase()}</li>`;
-        } else {
-            visibleIngredientsList += `<li>${quantity} ${measurement} of ${ingredient.toLowerCase()}<li>`;
-        }
-        document.getElementById('ingredients-to-display').innerHTML = `<ul>${visibleIngredientsList}</ul>`;
-
-        // Reset input elements for new ingredient
-        document.getElementById('ingredient').value = '';
-        document.getElementById('quantity').value = '';
-        $('select').prop('selectedIndex', 0);
-        $('select').formSelect();
-    });
-
-    var stepsToAdd = '';
-    var addStepsButton = document.getElementById('add-step');
-    addStepsButton.addEventListener('click', () => {
-        var steps = document.getElementById('steps-input').value;
-        stepsToAdd += `${steps}<br>`;
-        document.getElementById('steps-list').innerHTML = `${stepsToAdd}`;
-        document.getElementById('steps-to-display').innerHTML = stepsToAdd;
-        document.getElementById('steps-input').value = '';
-    });
-</script>
 {% endblock %}
