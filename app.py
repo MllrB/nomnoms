@@ -14,18 +14,43 @@ app.config["MONGO_URI"] = os.getenv("MONGO_URI")
 
 mongo = PyMongo(app)
 
+# Reusable functions
+def recipe_init():
+    # initialise blank recipe document to include all possible options including those not returned by create recipe form
+    blank_recipe = {'title': '',
+    'ingredients': [],
+    'steps': [],
+    'category': '',
+    'omnivorous': 'off',
+    'vegetarian': 'off',
+    'vegan': 'off',
+    'dairy_free': 'off',
+    'gluten_free': 'off',
+    'nut_free': 'off',
+    'breakfast': 'off',
+    'lunch': 'off',
+    'dinner': 'off',
+    'snack': 'off',
+    'owner': '',
+    'pin': ''}
+
+    return blank_recipe
+
 @app.route('/')
 @app.route('/home')
 def home():
+    # Route for returning to homepage
     return render_template('index.html')
 
 @app.route('/browse_recipes')
 def browse_recipes():
+    # Browse and find recipes for viewing
     recipes = mongo.db.scrambledeggs.find()
     return render_template('recipe.html', recipes = recipes)
 
 @app.route('/create_recipe')
 def create_recipe():
+    # displays the create recipe page
     measurements_list = mongo.db.optionalTypes.find_one({'name': 'measurements'})['values']
     categories = mongo.db.optionalTypes.find_one({'name': 'recipe_type'})['values']
     extra_info = mongo.db.optionalTypes.find_one({'name': 'recipe_info'})['values']
@@ -35,7 +60,10 @@ def create_recipe():
 @app.route('/add_recipe/', methods=['POST'])
 def add_recipe():
     # Adding a new recipe document to database
-    new_recipe = mongo.db.scrambledeggs
+    
+    # initialise recipe document
+    recipe_to_add = recipe_init()
+
     if request.method == 'POST':
         recipe_holder = request.form.to_dict()
         # processing steps info from <textarea> into an array so each step 
@@ -55,7 +83,13 @@ def add_recipe():
                 ingredients[i] = ast.literal_eval(val)            
         recipe_holder['ingredients'] = ingredients
 
-        new_recipe.insert_one(recipe_holder)
+        # replace values in blank document with form data
+        for key in recipe_holder:
+            recipe_to_add[key.lower()] = recipe_holder[key]
+        
+        # insert new recipe document in db
+        recipe_db_connection = mongo.db.scrambledeggs
+        recipe_db_connection.insert_one(recipe_to_add)
 
     return redirect(url_for('create_recipe'))
 
