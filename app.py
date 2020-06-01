@@ -67,7 +67,7 @@ def edit_recipe():
 def find_recipe_to_edit():
     if request.method == 'POST':
         pincode = request.form.to_dict()
-        recipes = mongo.db.scrambledeggs.find({'pin':pincode['pin']})
+        recipes = mongo.db.scrambledeggs.find({'pin':pincode['pin'], 'owner':pincode['owner']})
         no_of_docs = mongo.db.scrambledeggs.count_documents({'pin':pincode['pin']})
         
         if no_of_docs > 0:
@@ -79,8 +79,13 @@ def find_recipe_to_edit():
 
 @app.route('/update_recipe/<recipe_id>', methods=['POST'])
 def update_recipe(recipe_id):
-    recipe = mongo.db.scrambledeggs.find_one({'_id': recipe_id})
-    return render_template('update_recipe.html', recipe=recipe)
+    recipe = mongo.db.scrambledeggs.find_one({'_id': ObjectId(recipe_id)})
+
+    measurements_list = mongo.db.optionalTypes.find_one({'name': 'measurements'})['values']
+    categories = mongo.db.optionalTypes.find_one({'name': 'recipe_type'})['values']
+    extra_info = mongo.db.optionalTypes.find_one({'name': 'recipe_info'})['values']
+
+    return render_template('update_recipe.html', recipe=recipe, measurements=measurements_list, categories=categories, recipe_info=extra_info)
     
 
 if __name__ =='__main__':

@@ -1,11 +1,11 @@
 {% extends 'base.html' %} {% block content %}
-<h3>add a recipe</h3>
+<h3>edit recipe {{recipe.title}}</h3>
 <div class="row">
-    <form action="{{url_for('add_recipe')}}" method="POST" class="col s12" name="addRecipeForm">
+    <form action="" method="POST" class="col s12" name="">
         <div class="row">
             <div class="input-field col s12">
                 <i class="material-icons prefix">title</i>
-                <input id="icon_prefix" name='title' type="text" class="validate">
+                <input id="icon_prefix" name='title' type="text" class="validate" value="{{recipe.title}}">
                 <label for="icon_prefix">Recipe Name</label>
             </div>
             <div class="row">
@@ -66,9 +66,12 @@
             <div class="input-field col s4">
                 <span>Select the category that best fits your recipe:</span>
                 <select id="recipe_category" name='category'>
-                    <option id="default-select" value="" disabled selected >Category</option>
                     {% for category in categories %}
-                    <option value="{{category}}">{{category}}</option>
+                        {% if category == recipe.category %}
+                            <option value="{{category}}" selected>{{category}}</option>
+                        {% else %}
+                            <option value="{{category}}">{{category}}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
             </div>
