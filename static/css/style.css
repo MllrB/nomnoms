@@ -70,3 +70,10 @@ hr {
 .hidden-element {
     display: none;
 }
+
+.i-frames {
+    position: absolute;
+    height: 100%;
+    width: inherit;
+    border: inherit;
+}

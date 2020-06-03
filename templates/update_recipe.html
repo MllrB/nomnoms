@@ -10,39 +10,17 @@
             </div>
         </div>
         <div class="row">
-            <div class="col s4">
-                <table>
-                    <tr>
-                        <th>Ingredient</th>
-                        <th>Quantity</th>
-                        <th>Measurement</th>
-                        <th> </th>
-                    </tr>
-                    {% for ingredient in recipe.ingredients %}
-                    <tr>
-                        <td><input id="icon_prefix" name='title' type="text" class="validate" value="{{ingredient.ingredient_name}}"></td>
-                        <td><input id="icon_prefix" name='title' type="text" class="validate" value="{{ingredient.quantity}}"></td>
-                        <td><select id="measurements">
-                        {% for measure in measurements %}
-                        {% if measure == ingredient.measurement %}
-                            <option value="{{measure}}" selected>{{measure}}</option>
-                        {% else %}
-                            <option value="{{measure}}" >{{measure}}</option>
-                        {% endif %}
-                        {% endfor %}
-                    </select></td>
-                    </tr>
-                    {% endfor %}
-                </table>
+            <div class="col s5">
+                <iframe src="{{url_for('edit_ingredients', recipe_id=recipe._id)}}" frameborder="0" class='i-frames'></iframe>
             </div>
-            <div class="col s8">
+            <div class="col s7">
                 <table>
                     <tr>
                         <th>Edit Steps:</th>
                     </tr>
-                    {% for step in recipe.steps %}
+                    {% for steps in recipe.steps %}
                     <tr>
-                        <td><textarea id="steps-input" class="materialize-textarea">{{step}}</textarea></td>
+                        <td><textarea id="steps-input" name="{{steps.step_id}}" class="materialize-textarea">{{steps.step}}</textarea></td>
                     </tr>
                     {% endfor %}
                 </table>
