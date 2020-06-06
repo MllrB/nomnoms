@@ -6,7 +6,7 @@
         {%for recipe in recipes%}
         <ul class="collapsible">
             <li>
-                <form action="{{url_for('update_recipe', recipe_id=recipe._id)}}" method="POST">
+                <form action="{{url_for('recipe_to_update', recipe_id=recipe._id)}}" method="POST">
                     <div class="collapsible-header">
                         <div class="col s10">
                             <i class="material-icons">filter_drama</i>{{recipe.title}}
