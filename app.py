@@ -159,12 +159,18 @@ def update_recipe(recipe_id):
         form_values = request.form.to_dict()
         if 'remove_ingredient' in request.form:
             ingredient_to_remove = request.form['remove_ingredient']
-            remove_ingredient(recipe_id, ingredient_to_remove)
+            new_ingredients = remove_ingredient(recipe, ingredient_to_remove)
+            mongo.db.scrambledeggs.update_one({'_id': ObjectId(recipe_id)}, {'$set' : {'ingredients': new_ingredients}})
         elif 'add_ingredient' in request.form:
             new_ingredient = {'ingredient_name': form_values['ingredient_name'],
             'quantity': form_values['quantity'],
             'measurement': form_values['measurement']}
-            add_ingredient(recipe_id, new_ingredient)
+            new_ingredients = add_ingredient(recipe, new_ingredient)
+            mongo.db.scrambledeggs.update_one({'_id': ObjectId(recipe_id)}, {'$set' : {'ingredients': new_ingredients}})
+        elif 'add_step' in request.form:
+            new_step_value = form_values['new_step']
+            new_steps = add_step(recipe, new_step_value)
+            mongo.db.scrambledeggs.update_one({'_id': ObjectId(recipe_id)}, {'$set' : {'steps': new_steps}})
         elif 'save_recipe' in request.form:
             recipe['title'] = form_values['title']
             recipe['category'] = form_values['category']
@@ -191,7 +197,11 @@ def update_recipe(recipe_id):
                 for index, step in enumerate(recipe['steps']):
                     if step['step_id'] == form_key:
                         step['step'] = form_values[form_key]
-                        recipe['steps'][index] = step
+                        if step['step'] == '':
+                            del recipe['steps'][index]
+                        else: 
+                            recipe['steps'][index] = step
+
                 # update dietary info
                 for dict_key in recipe['dietary_info']:
                     if dict_key == form_key:
@@ -201,31 +211,39 @@ def update_recipe(recipe_id):
                     if dict_key == form_key:
                         recipe['meal_info'][dict_key] = 'on'
 
-            print(recipe)
-            print('')
-            print(form_values)
-
+            mongo.db.scrambledeggs.replace_one({'_id': ObjectId(recipe_id)}, recipe)
     
     return redirect(url_for('recipe_to_update', recipe_id=recipe_id))
 
-def remove_ingredient(recipe_id, ingredient_to_remove):
+def add_step(recipe, new_step_value):
+    steps = recipe['steps']
+    used_ids = []
+    for item in steps:
+        ids = item['step_id'].split('step_')
+        used_ids.append(int(ids[1]))
+
+    new_id = len(recipe['steps']) + 1
+    for i in used_ids:
+        if i == new_id:
+            new_id += 1
+
+    new_step = {'step_id': 'step_' + str(new_id), 'step': new_step_value}
+    steps.append(new_step)
+    return steps
+
+def remove_ingredient(recipe, ingredient_to_remove):
     # creates a new list of ingredients by deleting the selected ingredient based on the button pressed
     # updates the database before reloading the page
-    recipe = mongo.db.scrambledeggs.find_one({'_id': ObjectId(recipe_id)})
     ingredient_list = recipe['ingredients']
     for index, ingredient in enumerate(ingredient_list):
         if ingredient['ingredient_id'] == ingredient_to_remove:
-            del ingredient_list[index]
-        
-    recipe['ingredients'] = ingredient_list
-    mongo.db.scrambledeggs.update_one({'_id': ObjectId(recipe_id)}, {'$set' : {'ingredients': recipe['ingredients']}})
+            del ingredient_list[index]    
 
-    return
+    return ingredient_list
 
-def add_ingredient(recipe_id, new_ingredient):
+def add_ingredient(recipe, new_ingredient):
     # creates a new list of ingredients by appending a new ingredient to the list of ingredient objects from the db
     # and updates the database before reloading the page
-    recipe = mongo.db.scrambledeggs.find_one({'_id': ObjectId(recipe_id)})
 
     # finding the next available/unused ingredient id
     used_ids = []
@@ -245,9 +263,7 @@ def add_ingredient(recipe_id, new_ingredient):
         del new_ingredient['add_ingredient']
 
     recipe['ingredients'].append(new_ingredient)
-    mongo.db.scrambledeggs.update_one({'_id': ObjectId(recipe_id)}, {'$set' : {'ingredients': recipe['ingredients']}})
-
-    return 
+    return recipe['ingredients']
 
 if __name__ =='__main__':
     app.run(host=os.environ.get('IP'), port=os.environ.get('PORT'), debug=True)

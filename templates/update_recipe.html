@@ -103,8 +103,18 @@
                 </div>
             </div>
             <div class="col s6">
-                Edit Steps: {% for steps in recipe.steps %}
-                <textarea id="steps-input" name="{{steps.step_id}}" class="materialize-textarea">{{steps.step}}</textarea> {% endfor %}
+                Edit Steps: (to remove a step just delete the text and leave it blank) {% for steps in recipe.steps %}
+                <div class="col s12">
+                    <textarea id="steps-input" name="{{steps.step_id}}" class="materialize-textarea">{{steps.step}}</textarea>
+                </div>
+                {% endfor %}
+                <div class="input-field col s10">
+                    <textarea id="steps-input" class="materialize-textarea" name="new_step"></textarea>
+                    <label for="steps-input">Add a step</label>
+                </div>
+                <div class="col s2">
+                    <button id='add_step' name='add_step' value="add a step" class="btn-floating btn-large waves-effect waves-light green" type="submit"><i class="material-icons">add</i></button>
+                </div>
             </div>
         </div>
         <div class="row">
