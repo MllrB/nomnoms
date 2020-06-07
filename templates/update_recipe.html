@@ -1,7 +1,8 @@
 {% extends 'base.html' %} {% block content %}
 <h3>edit recipe {{recipe.title}}</h3>
-<div class="row">
-    <form action="" method="POST" class="col s12" name="title">
+
+<form action="{{url_for('update_recipe', recipe_id=recipe._id)}}" method="POST" name="existing_ingredients">
+    <div class="row">
         <div class="row">
             <div class="input-field col s12">
                 <i class="material-icons prefix">title</i>
@@ -9,20 +10,18 @@
                 <label for="icon_prefix">Recipe Name</label>
             </div>
         </div>
-    </form>
-    <div class="row">
-        <div class="col s6">
-            <form action="{{url_for('update_recipe', recipe_id=recipe._id)}}" method="POST" name="existing_ingredients">
+
+        <div class="row">
+            <div class="col s6">
                 {% for ingredient in recipe.ingredients %}
-                <input id="ingredient_id" name='ingredient_id' type="text" class="validate hidden-element" value="{{ingredient.ingredient_id}}">
                 <div class="col s4">
-                    <input id="icon_prefix" name='ingredient_name' type="text" class="validate" value="{{ingredient.ingredient_name}}">
+                    <input id="icon_prefix" name='ingredient_name_{{ingredient.ingredient_id}}' type="text" class="validate" value="{{ingredient.ingredient_name}}">
                 </div>
                 <div class="col s3">
-                    <input id="icon_prefix" name='quantity' type="text" class="validate" value="{{ingredient.quantity}}">
+                    <input id="icon_prefix" name='quantity_{{ingredient.ingredient_id}}' type="text" class="validate" value="{{ingredient.quantity}}">
                 </div>
                 <div class="col s4">
-                    <select id="measurements" name="measurement">
+                    <select id="measurements" name="measurement_{{ingredient.ingredient_id}}">
                     {% for measure in measurements %}
                         {% if measure == ingredient.measurement %}
                         <option value="{{measure}}" selected>{{measure}}</option>
@@ -36,8 +35,7 @@
                     <button id='remove_ingredient' name="remove_ingredient" value="{{ingredient.ingredient_id}}" class="btn-floating btn-small waves-effect waves-light red" type="submit"><i class="material-icons">delete_forever</i></button>
                 </div>
                 {% endfor %}
-            </form>
-            <form action="{{url_for('update_recipe', recipe_id=recipe._id)}}" method="POST" name="add_ingredients">
+
                 <div class="input-field col s4">
                     <input id="ingredient" type="text" class="validate" name='ingredient_name'>
                     <label for="ingredient">Ingredients</label>
@@ -56,20 +54,64 @@
                 <div class="col s1">
                     <button id='add_ingredient' name='add_ingredient' class="btn-floating btn-small waves-effect waves-light green" type="submit"><i class="material-icons">add</i></button>
                 </div>
-            </form>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <span>Select the category that best fits your recipe:</span>
+                        <select id="recipe_category" name='category'>
+                        {% for category in categories %}
+                            {% if recipe.category == category %}
+                                <option value="{{category}}" selected>{{category}}</option>
+                            {% else %}
+                                <option value="{{category}}">{{category}}</option>
+                            {% endif %}
+                        {% endfor %}
+                        </select>
+                    </div>
+                    <div class="input-field col s12">
+                        <div class="col s6">
+                            Dietary Information: {% for dietary in recipe.dietary_info %}
+                            <div class="col s12">
+                                {% if recipe.dietary_info[dietary] == 'on' %}
+                                <label>
+                                    <input type="checkbox" name="{{dietary}}" checked/>
+                                    <span>{{dietary}}</span>
+                                </label> {% else %}
+                                <label>
+                                    <input type="checkbox" name="{{dietary}}"/>
+                                    <span>{{dietary}}</span>
+                                </label> {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="col s6">
+                            Meal Type: {% for meal in recipe.meal_info %}
+                            <div class="col s12">
+                                {% if recipe.meal_info[meal] == 'on' %}
+                                <label>
+                                    <input type="checkbox" name="{{meal}}" checked/>
+                                    <span>{{meal}}</span>
+                                </label> {% else %}
+                                <label>
+                                    <input type="checkbox" name="{{meal}}"/>
+                                    <span>{{meal}}</span>
+                                </label> {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s6">
+                Edit Steps: {% for steps in recipe.steps %}
+                <textarea id="steps-input" name="{{steps.step_id}}" class="materialize-textarea">{{steps.step}}</textarea> {% endfor %}
+            </div>
         </div>
-        <div class="col s6">
-            <table>
-                <tr>
-                    <th>Edit Steps:</th>
-                </tr>
-                {% for steps in recipe.steps %}
-                <tr>
-                    <td><textarea id="steps-input" name="{{steps.step_id}}" class="materialize-textarea">{{steps.step}}</textarea></td>
-                </tr>
-                {% endfor %}
-            </table>
+        <div class="row">
+            <div class="col s12">
+                <button name="save_recipe" value="saved" class="btn-floating btn-small waves-effect waves-light green" type="submit">Save Recipe<i class="material-icons right">save</i></button>
+            </div>
         </div>
     </div>
-</div>
+</form>
 {% endblock %}
