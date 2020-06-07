@@ -43,6 +43,52 @@ def home():
     # Route for returning to homepage
     return render_template('index.html')
 
+@app.route('/search_recipes', methods=['POST'])
+def search_recipes():
+    recipes = mongo.db.scrambledeggs.find()
+    if request.method == 'POST':
+        search = request.form.to_dict()
+        search_term = search['search_term'].lower()
+        recipes_found = []
+        for recipe in recipes:
+            was_recipe_found = False
+            if search_term in recipe['title'].lower():
+                print('recipe found in title')
+                recipes_found.append(recipe)
+                continue
+            elif search_term in recipe['category'].lower():
+                print('recipe found in title')
+                recipes_found.append(recipe)
+                continue
+            else :
+                for ingredient in recipe['ingredients']:
+                    if search_term in ingredient['ingredient_name'].lower():
+                        print('recipe found in ingredients')
+                        recipes_found.append(recipe)
+                        was_recipe_found = True
+                        break
+                if not was_recipe_found:
+                    for dietary_info in recipe['dietary_info']:
+                        if search_term in dietary_info.lower() and recipe['dietary_info'][dietary_info] == 'on':
+                            print('recipe found in dietary info')
+                            recipes_found.append(recipe)
+                            was_recipe_found = True
+                            break
+                    if not was_recipe_found:
+                        for meal_info in recipe['meal_info']:
+                            if search_term in meal_info.lower() and recipe['meal_info'][meal_info] == 'on':
+                                print('recipe found in meal info')
+                                recipes_found.append(recipe)
+                                was_recipe_found = True
+                                break
+
+        return render_template('search_results.html', recipes=recipes_found, no_of_results=len(recipes_found))
+    
+    return redirect(url_for('home'))
+    
+    
+
+
 @app.route('/browse_recipes')
 def browse_recipes():
     # Browse and find recipes for viewing
