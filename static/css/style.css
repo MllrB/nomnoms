@@ -29,25 +29,12 @@ hr {
     font-family: 'The Girl Next Door', sans-serif;
 }
 
-.piedra {
-    font-family: 'piedra', sans-serif;
-}
-
 .crafty {
     font-family: 'Crafty Girls', sans-serif;
 }
 
 .dokdo {
     font-family: 'Dokdo', sans-serif;
-}
-
-.gaegu {
-    font-family: 'Gaegu', sans-serif;
-    font-size: 1.3em;
-}
-
-.indie {
-    font-family: 'Indie Flower', sans-serif;
 }
 
 .cang {
@@ -67,13 +54,56 @@ hr {
     font-weight: 600;
 }
 
-.hidden-element {
-    display: none;
+
+/* -----------------------------------------
+|******************FONTS*******************|
+----------------------------------------- */
+
+.piedra {
+    font-family: 'piedra', sans-serif;
+    text-shadow: -0.5px 1px 3px #fff;
 }
 
-.i-frames {
-    position: absolute;
-    height: 100%;
-    width: inherit;
-    border: inherit;
+.indie {
+    font-family: 'Indie Flower', sans-serif;
+    text-shadow: -0.5px 1px 3px #fff;
+    text-shadow: -2px 1px 3px rgb(183, 1, 51);
+}
+
+
+}
+.gaegu {
+    font-family: 'Gaegu', sans-serif;
+    font-size: 1.3em;
+}
+
+/* -----------------------------------------
+|**********COLOURS&BACKGROUNDS*************|
+----------------------------------------- */
+.orange {
+    color: rgba(255, 123, 0);
+}
+.chocolate {
+    color: rgb(121, 66, 15);
+}
+.graph {
+    /* background-image: url(/static/img/graphpaper.png); */
+    
+    background-image: url(/static/img/gingham.png);
+}
+nav .brand-logo {
+    /* color: rgb(121, 66, 15); */
+    
+    color: rgb(244, 203, 54);
+    padding-left: 50px;
+    padding-top: 3px;
+    font-size: 3.9em;
+}
+nav ul li a {}
+.a-test {
+    font-weight: 900;
+    font-size: 2em;
+}
+.hidden-element {
+    display: none;
 }

@@ -1,7 +1,7 @@
 import os
 import ast
 import json
-from flask import Flask, render_template, redirect, request, url_for
+from flask import Flask, render_template, redirect, request, url_for, session
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from os import path
@@ -10,10 +10,12 @@ if path.exists("env.py"):
 
 app = Flask(__name__)
 
-app.config["MONGO_DBNAME"] = "TossedSalad"
+app.config["MONGO_DBNAME"] = os.getenv("MONGO_URI")
 app.config["MONGO_URI"] = os.getenv("MONGO_URI")
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
 mongo = PyMongo(app)
+
 
 # Reusable functions
 def recipe_init():
@@ -41,6 +43,8 @@ def recipe_init():
 @app.route('/home')
 def home():
     # Route for returning to homepage
+    if not 'recipe' in session:
+        session['recipe'] = recipe_init()
     return render_template('index.html')
 
 @app.route('/search_recipes', methods=['POST'])
@@ -85,9 +89,6 @@ def search_recipes():
         return render_template('search_results.html', recipes=recipes_found, no_of_results=len(recipes_found))
     
     return redirect(url_for('home'))
-    
-    
-
 
 @app.route('/browse_recipes')
 def browse_recipes():
@@ -101,8 +102,58 @@ def create_recipe():
     measurements_list = mongo.db.optionalTypes.find_one({'name': 'measurements'})['values']
     categories = mongo.db.optionalTypes.find_one({'name': 'recipe_type'})['values']
     recipe_info = mongo.db.optionalTypes.find_one({'name': 'recipe_info'})
+    recipe = session.get('recipe')
 
-    return render_template('create_recipe.html', measurements=measurements_list, categories=categories, recipe_info=recipe_info)
+    return render_template('create_recipe_two.html', recipe=recipe, measurements=measurements_list, categories=categories, recipe_info=recipe_info)
+
+@app.route('/add_recipe_two/', methods=['GET', 'POST'])
+def add_recipe_two():
+    #recipe = mongo.db.scrambledeggs.find_one({'_id': ObjectId(recipe_id)})
+    if request.method == 'POST':
+        form_values = request.form.to_dict()
+        
+        session['recipe']['owner'] = form_values['owner']
+        session['recipe']['pin'] = form_values['pin']
+        session['recipe']['title'] = form_values['title']
+        
+        recipe = session.get('recipe')
+        session.modified = True
+
+        if 'remove_ingredient' in request.form:
+            ingredient_to_remove = request.form['remove_ingredient']
+            new_ingredients = remove_ingredient(recipe, ingredient_to_remove)
+            session['recipe']['ingredients'] = new_ingredients
+        elif 'add_ingredient' in request.form:
+            new_ingredient = {'ingredient_name': form_values['ingredient_name'],
+            'quantity': form_values['quantity'],
+            'measurement': form_values['measurement']}
+            new_ingredients = add_ingredient(recipe, new_ingredient) 
+            session['recipe']['ingredients'] = new_ingredients
+        elif 'add_step' in request.form:
+            new_step_value = form_values['new_step']
+            session['recipe']['steps'] = add_step(session['recipe'], new_step_value)
+        elif 'save_recipe' in request.form:
+            session['recipe']['category'] = form_values['category']
+            # remove unnecessary fields and values before further processing
+            del form_values['ingredient_name'], form_values['quantity'], form_values['measurement']
+
+            for form_key in form_values:
+                # update dietary info
+                for dict_key in recipe['dietary_info']:
+                    if dict_key == form_key:
+                        session['recipe']['dietary_info'][dict_key] = 'on'
+                # update meal type
+                for dict_key in recipe['meal_info']:
+                    if dict_key == form_key:
+                        session['recipe']['meal_info'][dict_key] = 'on'
+            
+            
+            mongo.db.scrambledeggs.insert_one(session['recipe'])
+            session['recipe'] = recipe_init()
+            print(session['recipe'])
+            return render_template('recipe_saved.html')
+
+    return redirect(url_for('create_recipe'))
 
 @app.route('/add_recipe/', methods=['POST'])
 def add_recipe():
@@ -293,14 +344,17 @@ def add_ingredient(recipe, new_ingredient):
 
     # finding the next available/unused ingredient id
     used_ids = []
-    for item in recipe['ingredients']:
-        ids = item['ingredient_id'].split('ingredient_')
-        used_ids.append(int(ids[1]))
+    if len(recipe['ingredients']) > 0:
+        for item in recipe['ingredients']:
+            ids = item['ingredient_id'].split('ingredient_')
+            used_ids.append(int(ids[1]))
 
-    new_id = len(recipe['ingredients']) + 1
-    for i in used_ids:
-        if i == new_id:
-            new_id += 1
+        new_id = len(recipe['ingredients']) + 1
+        for i in used_ids:
+            if i == new_id:
+                new_id += 1
+    else :
+        new_id = 1
 
     # adding the new ingredient
     new_ingredient_id = 'ingredient_' + str(new_id)
