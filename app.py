@@ -107,6 +107,11 @@ def search_recipes():
     
     return redirect(url_for('home'))
 
+@app.route('/show_recipe/<recipe_id>')
+def show_recipe(recipe_id):
+    recipe = mongo.db.scrambledeggs.find_one({'_id': ObjectId(recipe_id)})
+    return render_template('recipe.html', recipe=recipe)
+
 @app.route('/browse_recipes')
 def browse_recipes():
     # Browse and find recipes for viewing
