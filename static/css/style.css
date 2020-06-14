@@ -1,12 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Crafty+Girls&family=Dokdo&family=Gaegu:wght@300&family=Indie+Flower&family=Long+Cang&family=Piedra&family=Raleway:wght@100&family=Schoolbell&family=Swanky+and+Moo+Moo&family=The+Girl+Next+Door&display=swap');
-.container {
-    margin: 0;
-    padding: 0;
-    width: 100vw;
-}
-
 body {
     background-color: rgb(245, 244, 244);
+    font-family: 'Gaegu', sans-serif;
+    font-size: 1.3em;
 }
 
 hr {
@@ -14,16 +10,10 @@ hr {
     height: 3px;
 }
 
-.logo {
-    /* text-align: center; */
-}
 
-.main {
-    margin-left: 50px;
-    padding-left: 20px;
-    text-align: left;
-    height: 100%;
-}
+/* .logo {
+    text-align: center; 
+} */
 
 .girl {
     font-family: 'The Girl Next Door', sans-serif;
@@ -45,10 +35,6 @@ hr {
     font-family: 'Schoolbell', sans-serif;
 }
 
-.swanky {
-    font-family: 'Swanky and Moo Moo', sans-serif;
-}
-
 .raleway {
     font-family: 'Raleway', sans-serif;
     font-weight: 600;
@@ -59,6 +45,12 @@ hr {
 |******************FONTS*******************|
 ----------------------------------------- */
 
+.swanky {
+    font-family: 'Swanky and Moo Moo', sans-serif;
+    font-size: 3em;
+    font-weight: 900;
+}
+
 .piedra {
     font-family: 'piedra', sans-serif;
     text-shadow: -0.5px 1px 3px #fff;
@@ -67,43 +59,216 @@ hr {
 .indie {
     font-family: 'Indie Flower', sans-serif;
     text-shadow: -0.5px 1px 3px #fff;
-    text-shadow: -2px 1px 3px rgb(183, 1, 51);
+    text-shadow: -2px 1px 3px #fdbb2d;
 }
 
-
-}
 .gaegu {
     font-family: 'Gaegu', sans-serif;
     font-size: 1.3em;
 }
 
+
 /* -----------------------------------------
 |**********COLOURS&BACKGROUNDS*************|
 ----------------------------------------- */
-.orange {
-    color: rgba(255, 123, 0);
+
+.nav-wrapper {
+    background-color: rgb(47, 88, 89);
+    box-shadow: -1px 1px 10px 5px rgb(179, 195, 195);
+    z-index: 2;
 }
-.chocolate {
-    color: rgb(121, 66, 15);
-}
-.graph {
-    /* background-image: url(/static/img/graphpaper.png); */
-    
-    background-image: url(/static/img/gingham.png);
-}
+
 nav .brand-logo {
-    /* color: rgb(121, 66, 15); */
-    
     color: rgb(244, 203, 54);
     padding-left: 50px;
-    padding-top: 3px;
+    padding-top: 2px;
     font-size: 3.9em;
 }
-nav ul li a {}
+
+
+/* nav ul li a {} */
+
 .a-test {
     font-weight: 900;
-    font-size: 2em;
+    font-size: 1.2em;
 }
+
 .hidden-element {
     display: none;
+}
+
+
+/* .input-field input[type=search] {
+    display: block;
+    line-height: inherit;
+    -webkit-transition: .3s background-color;
+    transition: .3s background-color;
+    border: 2px solid hotpink;
+    border-radius: 3%;
+    width: 30%;
+    padding-left: 5%;
+    font-family: 'Gaegu', sans-serif;
+    font-size: 1.3em;
+} */
+
+.container {
+    margin: auto;
+    margin-top: 0;
+    width: 100vw;
+    padding: 100px;
+    padding-left: 5%;
+}
+
+
+/* -----------------------------------------
+|******************FORMS*******************|
+----------------------------------------- */
+
+.notebook {
+    width: 100%;
+    height: 100%;
+    min-width: 100vw;
+    min-height: 100vh;
+    position: relative;
+    top: 0;
+    padding: 0;
+    margin: 0;
+    background-image: url(/static/img/n9.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+h3 {
+    padding: 0;
+    margin: 0;
+}
+
+.form-text-color {
+    color: rgb(121, 119, 119);
+}
+
+.short-form {
+    padding-left: 15%;
+}
+
+
+/* buttons */
+
+.btn,
+.btn-large,
+.btn-small {
+    font-family: 'Gaegu', sans-serif;
+    font-size: 1.3em;
+    font-weight: 900;
+    background-color: rgb(145, 195, 57);
+}
+
+.btn:hover,
+.btn-large:hover,
+.btn-small:hover {
+    background-color: rgb(76, 175, 80);
+    font-size: 1.32em;
+}
+
+
+/* icons */
+
+.prefix {
+    color: rgb(143, 141, 79);
+}
+
+.input-field .prefix.active {
+    color: #2fb301;
+}
+
+
+/* select and checkboxes */
+
+.dropdown-content li>a,
+.dropdown-content li>span {
+    color: rgb(143, 141, 79);
+    font-weight: 700;
+}
+
+[type="checkbox"]:checked+span:not(.lever):before {
+    border-right: 2px solid rgb(76, 175, 80);
+    border-bottom: 2px solid rgb(76, 175, 80);
+}
+
+[type="checkbox"]+span:not(.lever):before,
+[type="checkbox"]:not(.filled-in)+span:not(.lever):after {
+    border: 2px solid rgb(143, 141, 79);
+}
+
+
+/* https://stackoverflow.com/questions/37127123/change-color-of-underline-input-and-label-in-materialize-css-framework 
+https://stackoverflow.com/users/4249129/runninghair08 */
+
+
+/* Inactive/Active Default input field color */
+
+.select-wrapper input.select-dropdown,
+.input-field input[type]:not([readonly]),
+.input-field input[type]:focus:not([readonly]),
+.input-field textarea:not([readonly]),
+.input-field textarea:focus:not([readonly]) {
+    font-family: 'Gaegu', sans-serif;
+    font-size: 1.3em;
+    color: rgb(122, 120, 120);
+    border-bottom: 1px solid rgb(143, 141, 79);
+    box-shadow: 0 1px 0 0 rgb(143, 141, 79);
+}
+
+
+/* Inactive/Active Default input label color */
+
+.input-field input[type]:focus:not([readonly])+label,
+.input-field textarea:focus:not([readonly])+label {
+    color: rgb(143, 141, 79);
+}
+
+
+/* Active/Inactive Invalid input field colors */
+
+.input-field input[type].invalid,
+.input-field input[type].invalid:focus,
+.input-field textarea.invalid,
+.input-field textarea.invalid:focus {
+    border-bottom: 1px solid #f75454;
+    box-shadow: 0 1px 0 0 #f75454;
+}
+
+
+/* Active/Inactive Invalid input label color */
+
+.input-field input[type].invalid:focus+label,
+.input-field input[type].invalid~.helper-text::after,
+.input-field input[type].invalid:focus~.helper-text::after,
+.input-field textarea.invalid:focus+label,
+.input-field textarea.invalid~.helper-text::after,
+.input-field textarea.invalid:focus~.helper-text::after {
+    color: #f75454;
+}
+
+
+/* Active/Inactive Valid input field color */
+
+.input-field input[type].valid,
+.input-field input[type].valid:focus,
+.input-field textarea.valid,
+.input-field textarea.valid:focus {
+    border-bottom: 1px solid #2fb301;
+    box-shadow: 0 1px 0 0 #2fb301;
+}
+
+
+/* Active/Inactive Valid input label color */
+
+.input-field input[type].valid:focus+label,
+.input-field input[type].valid~.helper-text::after,
+.input-field input[type].valid:focus~.helper-text::after,
+.input-field textarea.valid:focus+label,
+.input-field textarea.valid~.helper-text::after,
+.input-field textarea.valid:focus~.helper-text::after {
+    color: #2fb301;
 }

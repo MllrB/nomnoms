@@ -27,7 +27,8 @@ def recipe_init():
     'owner': '',
     'pin': '',
     'dietary_info': {},
-    'meal_info': {} } 
+    'meal_info': {},
+    'img_url': url_for('static', filename='img/stockimg.png') } 
 
     # add key value pairs for recipe filters and allow for additions/deletions to filter keywords at db level
     recipe_info = mongo.db.optionalTypes.find_one({'name': 'recipe_info'})
@@ -115,6 +116,8 @@ def add_recipe_two():
         session['recipe']['owner'] = form_values['owner']
         session['recipe']['pin'] = form_values['pin']
         session['recipe']['title'] = form_values['title']
+        if form_values['img_url'] != '':
+                session['recipe']['img_url'] = form_values['img_url']
         
         recipe = session.get('recipe')
         session.modified = True
@@ -147,10 +150,9 @@ def add_recipe_two():
                     if dict_key == form_key:
                         session['recipe']['meal_info'][dict_key] = 'on'
             
-            
             mongo.db.scrambledeggs.insert_one(session['recipe'])
             session['recipe'] = recipe_init()
-            print(session['recipe'])
+            
             return render_template('recipe_saved.html')
 
     return redirect(url_for('create_recipe'))
@@ -254,6 +256,7 @@ def update_recipe(recipe_id):
     
     if request.method == 'POST':
         form_values = request.form.to_dict()
+
         if 'remove_ingredient' in request.form:
             ingredient_to_remove = request.form['remove_ingredient']
             new_ingredients = remove_ingredient(recipe, ingredient_to_remove)
@@ -308,7 +311,13 @@ def update_recipe(recipe_id):
                     if dict_key == form_key:
                         recipe['meal_info'][dict_key] = 'on'
 
+            
+            recipe['img_url'] = form_values['img_url']
+
             mongo.db.scrambledeggs.replace_one({'_id': ObjectId(recipe_id)}, recipe)
+
+            recipes = mongo.db.scrambledeggs.find({'pin':recipe['pin'], 'owner': recipe['owner']})
+            return render_template('choose_recipe_to_edit.html', recipes=recipes)
     
     return redirect(url_for('recipe_to_update', recipe_id=recipe_id))
 
