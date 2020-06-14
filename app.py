@@ -113,7 +113,7 @@ def add_recipe_two():
     if request.method == 'POST':
         form_values = request.form.to_dict()
         
-        session['recipe']['owner'] = form_values['owner']
+        session['recipe']['owner'] = form_values['owner'].lower()
         session['recipe']['pin'] = form_values['pin']
         session['recipe']['title'] = form_values['title']
         if form_values['img_url'] != '':
@@ -231,7 +231,8 @@ def find_recipe_to_edit():
         pincode = request.form.to_dict()
         owner = pincode['owner'].lower()
         recipes = mongo.db.scrambledeggs.find({'pin':pincode['pin'], 'owner': owner})
-        no_of_docs = mongo.db.scrambledeggs.count_documents({'pin':pincode['pin']})
+        no_of_docs = mongo.db.scrambledeggs.count_documents({'pin':pincode['pin'], 'owner': owner})
+        print(no_of_docs)
         
         if no_of_docs > 0:
             return render_template('choose_recipe_to_edit.html', recipes=recipes)
