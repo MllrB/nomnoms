@@ -119,6 +119,25 @@ nav .brand-logo {
     padding-left: 5%;
 }
 
+.card {
+    width: 100%;
+    height: 270px;
+}
+
+.card-image {
+    height: 180px;
+    overflow: hidden;
+}
+
+.card .card-content {
+    padding: 15px;
+    font-size: 1em;
+}
+
+.card-content span i {
+    color: rgb(74, 77, 74);
+}
+
 
 /* -----------------------------------------
 |******************FORMS*******************|
@@ -173,6 +192,14 @@ h3 {
 
 /* icons */
 
+.material-icons {
+    color: #fff;
+}
+
+.header-icon {
+    color: rgb(173, 161, 161);
+}
+
 .prefix {
     color: rgb(143, 141, 79);
 }
@@ -182,7 +209,30 @@ h3 {
 }
 
 
+/* collapsibles */
+
+.collapsible {
+    margin-left: 5%;
+    background-color: transparent;
+}
+
+.collapsible-header {
+    background-color: transparent;
+    box-shadow: 0px -10px 15px 0px rgb(221, 221, 221);
+}
+
+.collapsible-title {
+    font-size: 1.5em;
+    font-weight: 400;
+}
+
+
 /* select and checkboxes */
+
+#category_filter {
+    font-size: 0.8em;
+    padding-top: 1.3em;
+}
 
 .dropdown-content li>a,
 .dropdown-content li>span {
@@ -213,7 +263,6 @@ https://stackoverflow.com/users/4249129/runninghair08 */
 .input-field textarea:not([readonly]),
 .input-field textarea:focus:not([readonly]) {
     font-family: 'Gaegu', sans-serif;
-    font-size: 1.3em;
     color: rgb(122, 120, 120);
     border-bottom: 1px solid rgb(143, 141, 79);
     box-shadow: 0 1px 0 0 rgb(143, 141, 79);
