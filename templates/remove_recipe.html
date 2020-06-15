@@ -1,0 +1,32 @@
+{% extends 'base.html' %} 
+{% block content %}
+<div class="notebook">
+    <div class="container form-text-color short-form">
+        <form action="{{url_for('find_recipes_for_removal')}}" method="POST">
+            <h5 class="left-align">Please enter the name and pin number you used when creating your recipe.</h5>
+            <div class="row">
+                <div class="input-field col s4">
+                    <i class="material-icons prefix">person</i>
+                    <input id="author" type="text" name="owner" class="validate" required>
+                    <label for="author">Your name</label>
+                </div>
+                <div class="input-field col s3">
+                    <i class="material-icons prefix">lock</i>
+                    <input id="pin" type="password" name="pin" class="validate" required>
+                    <label for="pin">4 digit pin</label>
+                </div>
+                <div class="input-field col s4 center-align">
+                    <button class="btn waves-effect waves-light" type="submit">Continue
+                    <i class="material-icons right">edit</i>
+                    </button>
+                </div>
+                {% if doc_not_found %}
+                <div class="col s12">
+                    <p>Sorry! No recipe was found with that name and pin number combination</p>
+                </div>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
