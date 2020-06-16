@@ -29,8 +29,8 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col s6">
-                            <div class="col s12">
+                        <div class="col s12 m6">
+                            <div class="col s12 ingredient-inputs">
                                 <div class="input-field col s4">
                                     <input id="ingredient" type="text" class="validate" name='ingredient_name'>
                                     <label for="ingredient">Ingredients</label>
@@ -39,14 +39,14 @@
                                     <input id="quantity" type="text" class="validate" name='quantity'>
                                     <label for="quantity">Quantity</label>
                                 </div>
-                                <div class="input-field col s4">
+                                <div class="input-field col s3 m4">
                                     <select id="measurements" name='measurement'>
                                         {% for measure in measurements %}
                                             <option value="{{measure}}">{{measure}}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
-                                <div class="col s1">
+                                <div class="col s2 m1">
                                     <button id='add_ingredient' name='add_ingredient' class="btn-floating btn-large waves-effect waves-light green" type="submit"><i class="material-icons">add</i></button>
                                 </div>
                                 {% for ingredient in recipe.ingredients %}
@@ -56,7 +56,7 @@
                                     <div class="col s3">
                                         <input name='quantity_{{ingredient.ingredient_id}}' type="text" class="validate" value="{{ingredient.quantity}}">
                                     </div>
-                                    <div class="col s4">
+                                    <div class="col s3 m4">
                                         <select id="measurements" name="measurement_{{ingredient.ingredient_id}}">
                                             {% for measure in measurements %}
                                                 {% if measure == ingredient.measurement %}
@@ -67,7 +67,7 @@
                                             {% endfor %}
                                         </select>
                                     </div>
-                                    <div class="col s1">
+                                    <div class="col s2 m1">
                                         <button id='remove_ingredient' name="remove_ingredient" value="{{ingredient.ingredient_id}}" class="btn-floating btn-small waves-effect waves-light red" type="submit"><i class="material-icons">delete_forever</i></button>
                                     </div>
                                 {% endfor %}
@@ -125,27 +125,26 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col s6">
+                        <div class="col s12 m6">
                             {% for steps in recipe.steps %}
                                 <div class="col s12">
                                     <textarea id="steps-input" name="{{steps.step_id}}" class="materialize-textarea">{{steps.step}}</textarea>
                                 </div>
                             {% endfor %}
-                            <div class="input-field col s10">
+                            <div class="input-field col s9 m10">
                                 <textarea id="steps-input" class="materialize-textarea" name="new_step"></textarea>
                                 <label for="steps-input">Add a step</label>
                             </div>
-                            <div class="col s2">
+                            <div class="col s3 m2">
                                 <button id='add_step' name='add_step' value="add a step" class="btn-floating btn-large waves-effect waves-light green" type="submit"><i class="material-icons">add</i></button>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col s8">
+                        <div class="col s12 m7 l8">
                             <div class="col s12">
                                 <br>
                                 <p>To add an image, simply copy and paste in the URL of the image you'd like to use:</p>
-                                <br>
                             </div>
                             <div class="col s12 input-field">
                                 <i class="material-icons prefix">image</i>
@@ -153,11 +152,11 @@
                                 <label for="image">Image URL</label>
                             </div>
                         </div>
-                        <div class="col s4">
-                            <img src="{{recipe.img_url}}" alt="Default image of ingredients" height="300px">
+                        <div class="col s12 m5 l4">
+                            <img src="{{recipe.img_url}}" alt="Default image of ingredients" id="add-edit-img" class="add-img">
                         </div>
                         <div class="input-field col s12 center-align">
-                            <button name="save_recipe" value="saved" class="btn waves-effect waves-light" type="submit">Save Recipe
+                            <button id="save-button" name="save_recipe" value="saved" class="btn waves-effect waves-light" type="submit">Save Recipe
                                 <i class="material-icons right">save</i>
                             </button>
                         </div>
