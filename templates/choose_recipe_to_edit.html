@@ -10,19 +10,19 @@
                     <li>
                         <form action="{{url_for('recipe_to_update', recipe_id=recipe._id)}}" method="POST">
                             <div class="collapsible-header">
-                                <div class="col s8 valign-wrapper">
-                                    <i class="material-icons header-icon">arrow_drop_down_circle</i>
+                                <div class="col s7 m9 l8 valign-wrapper">
+                                    <i class="material-icons header-icon hide-on-small-only">arrow_drop_down_circle</i>
                                     <span class="collapsible-title">{{recipe.title}}</span>
                                 </div>
-                                <div class="col s4 right-align">
+                                <div class="col s5 m3 l4 valign-wrapper collapsible-button right">
                                     <button class="btn waves-effect waves-light" type="submit">Edit
                                         <i class="material-icons right">edit</i>
                                     </button>
                                 </div>
                             </div>
                         </form>
-                        <div class="row collapsible-body">
-                            <div class="col s3">
+                        <div class="row collapsible-body hide-on-small-only">
+                            <div class="col s12 m3">
                                 <ul>
                                     <li><img src="{{recipe.img_url}}" alt="{{recipe.title}}" height="150"></li>
                                     {% for ingredient in recipe.ingredients %}
@@ -34,7 +34,7 @@
                                     {% endfor %}
                                 </ul>
                             </div>
-                            <div class="col s9">
+                            <div class="col m9">
                                 <ul>
                                     {% for steps in recipe.steps %}
                                     <li>

@@ -188,6 +188,9 @@ def search_recipes():
 @app.route('/create_recipe')
 def create_recipe():
     # displays the create recipe page
+    if not 'recipe' in session:
+        session['recipe'] = recipe_init()
+        
     measurements_list = mongo.db.optionalTypes.find_one({'name': 'measurements'})['values']
     categories = mongo.db.optionalTypes.find_one({'name': 'recipe_type'})['values']
     recipe_info = mongo.db.optionalTypes.find_one({'name': 'recipe_info'})
@@ -379,6 +382,7 @@ def find_recipes_for_removal():
 @app.route('/delete_recipe/<recipe_id>', methods=['POST'])
 def delete_recipe(recipe_id):
     # remove the relevant recipe from the db
+
     if request.method == 'POST':
         # check if there is still a document with the relevant _id
         # If the user clicks the browsers back button they will see the deleted documents due to the 

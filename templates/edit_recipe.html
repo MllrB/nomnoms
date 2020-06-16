@@ -3,20 +3,20 @@
     <div class="page-wrapper">
         <div class="container form-text-color short-form">
             <form action="{{url_for('find_recipe_to_edit')}}" method="POST">
-                <h5 class="left-align">Please enter the name and pin number you used when creating your recipe.</h5>
+                <h5 class="center-align">Please enter the name and pin number you used when creating your recipe.</h5>
                 <div class="row">
-                    <div class="input-field col s4">
+                    <div class="input-field col s12 m6 l4">
                         <i class="material-icons prefix">person</i>
                         <input id="author" type="text" name="owner" class="validate" required>
                         <label for="author">Your name</label>
                     </div>
-                    <div class="input-field col s3">
+                    <div class="input-field col s12 m6 l4">
                         <i class="material-icons prefix">lock</i>
                         <input id="pin" type="password" name="pin" class="validate" required>
                         <label for="pin">4 digit pin</label>
                     </div>
-                    <div class="input-field col s4 center-align">
-                        <button class="btn waves-effect waves-light" type="submit">Edit Recipe
+                    <div class="input-field col s12 m12 l4 center-align">
+                        <button class="btn waves-effect waves-light short-form-button" type="submit">Edit Recipe
                         <i class="material-icons right">edit</i>
                         </button>
                     </div>
