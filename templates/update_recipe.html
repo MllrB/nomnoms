@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 <div class="notebook">
-    <div class="pagewrapper">
+    <div class="page-wrapper">
         <div class="container form-text-color">
             <h3>Edit your recipe</h3>
             <form action="{{url_for('update_recipe', recipe_id=recipe._id)}}" method="POST" name="existing_ingredients">
