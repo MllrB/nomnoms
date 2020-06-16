@@ -4,6 +4,9 @@ body {
     max-width: 100vw;
     font-family: 'Gaegu', sans-serif;
     font-size: 1.3em;
+    background-image: url(/static/img/notepaper.png);
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .body-wrapper {
@@ -42,9 +45,6 @@ hr {
     top: 0;
     padding: 0;
     margin: 0;
-    background-image: url(/static/img/notepaper.png);
-    background-repeat: no-repeat;
-    background-size: cover;
 }
 
 h3 {
@@ -63,15 +63,8 @@ h3 {
     font-weight: 900;
 }
 
-.piedra {
-    font-family: 'piedra', sans-serif;
-    text-shadow: -0.5px 1px 3px #fff;
-}
-
 .indie {
     font-family: 'Indie Flower', sans-serif;
-    text-shadow: -0.5px 1px 3px #fff;
-    text-shadow: -2px 1px 3px #fdbb2d;
 }
 
 .gaegu {
@@ -97,12 +90,9 @@ nav .brand-logo {
     font-size: 3.9em;
 }
 
-
-/* nav ul li a {} */
-
-.a-test {
+nav ul a {
+    text-shadow: -2px 1px 3px #000;
     font-weight: 900;
-    font-size: 1.2em;
 }
 
 .hidden-element {
@@ -118,6 +108,48 @@ nav .brand-logo {
     padding-top: 20px;
 }
 
+.jumbotron {
+    padding-bottom: 13%;
+}
+
+.fried-egg {
+    width: 60vw;
+    height: 50vh;
+    margin-top: 6%;
+    background-image: url(/static/img/egg.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+.strapline-logo {
+    font-family: 'Swanky and Moo Moo', sans-serif;
+    font-size: 11em;
+    font-weight: 900;
+    color: rgb(244, 203, 54);
+    margin-top: 2%;
+    margin-bottom: 5px;
+    text-shadow: 4px 4px 0px rgb(105, 97, 43);
+}
+
+.strapline {
+    font-family: 'Indie flower', sans-serif;
+    font-weight: 600;
+    color: rgb(22, 61, 80);
+}
+
+.page-footer .footer-copyright {
+    color: rgba(255, 203, 203, 0.8);
+}
+
+.footer-link {
+    color: rgba(255, 203, 203, 0.8);
+}
+
+.footer-link:hover {
+    color: rgb(192, 239, 236);
+}
+
 .col .s3 ul li img {
     max-width: 100%;
 }
@@ -126,10 +158,24 @@ nav .brand-logo {
     margin-top: 20px;
 }
 
-.card {
+.recipe-cards-container .card {
     width: 100%;
     height: 330px;
     background-image: url(/static/img/card.png);
+}
+
+.home-card .card {
+    width: 100%;
+    height: 0px;
+}
+
+.home-card .card .card-image {
+    width: 100%;
+}
+
+.home-card .card-action {
+    margin-bottom: 0;
+    text-align: center;
 }
 
 .card-title {
@@ -430,4 +476,12 @@ textarea.materialize-textarea {
     font-family: 'Gaegu', sans-serif;
     font-size: 1.3em;
     color: rgb(122, 120, 120);
+}
+
+.nav-wrapper .input-field input[type="search"] {
+    width: 100px;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    display: inline-block;
 }

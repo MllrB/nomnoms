@@ -1,12 +1,47 @@
-{% extends 'base.html'%}{% block content %}
-<div class="row">
-    <form action="{{url_for('search_recipes')}}" method="POST">
-        <div class="input-field col s12">
-            <input id="search" type="search" name="search_term" class="search_bar" required>
-            <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-            <i class="material-icons">close</i>
+{% extends 'base.html'%}
+{% block content %}
+    <div class="row container">
+        <div class="row jumbotron">
+            <div class="col s12 fried-egg">
+                    <h1 class="strapline-logo center-align">NomNoms</h1>
+                    <h3 class="strapline center-align">explore and create recipes!</h3>
+            </div>
         </div>
-    </form>
-</div>
+        <div class="row">
+            <div class="col s12">
+                <div class="col s4 home-card">
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="/static/img/pizza.jpg">
+                        </div>
+                        <div class="card-action gaegu">
+                            <a href="{{ url_for('browse_recipes') }}">browse Recipes</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s4 home-card">
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="/static/img/veg.jpg">
+                        </div>
+                        <div class="card-action gaegu">
+                            <a href="{{ url_for('create_recipe') }}">add a recipe</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s4 home-card">
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="/static/img/edit.jpg">
+                        </div>
+                        <div class="card-action gaegu">
+                            <a href="{{ url_for('edit_recipe') }}">edit your recipes</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 {% endblock %}
