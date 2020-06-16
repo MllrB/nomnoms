@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Crafty+Girls&family=Dokdo&family=Gaegu:wght@300&family=Indie+Flower&family=Long+Cang&family=Piedra&family=Raleway:wght@100&family=Schoolbell&family=Swanky+and+Moo+Moo&family=The+Girl+Next+Door&display=swap');
 body {
     background-color: rgb(245, 244, 244);
+    width: 100%;
     max-width: 100vw;
     font-family: 'Gaegu', sans-serif;
     font-size: 1.3em;
@@ -11,14 +12,18 @@ body {
 
 #body-wrapper {
     position: relative;
-    width: 98.89vw;
+    width: 99vw;
     overflow-x: hidden;
+}
+
+.page-wrapper {
+    padding-top: 50px;
 }
 
 .notebook {
     width: 100%;
     height: 100%;
-    min-width: 100vw;
+    max-width: 99vw;
     max-width: 100vw;
     min-height: 100vh;
     position: relative;

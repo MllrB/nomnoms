@@ -21,30 +21,30 @@
             <select id="category_filter" name='category'>
                 <option value="category" disabled selected>Category</option>
                 {% for category in categories %}
-                <option value="{{category}}">{{category}}</option>
+                    <option value="{{category}}">{{category}}</option>
                 {% endfor %}
             </select>
             <ul>
                 <h6>Dietary Info</h6>
                 {% for dietary in recipe_info.dietary %}
-                <li>
-                    <label>
-                        <input type="checkbox" name="dietary_info.{{dietary}}"/>
-                        <span>{{dietary}}</span>
-                    </label>
-                </li>
+                    <li>
+                        <label>
+                            <input type="checkbox" name="dietary_info.{{dietary}}"/>
+                            <span>{{dietary}}</span>
+                        </label>
+                    </li>
                 {% endfor %}
             </ul>
             <hr>
             <ul>
                 <h6>Meal Type</h6>
                 {% for meal in recipe_info.meal %}
-                <li>
-                    <label>
-                        <input type="checkbox" name="meal_info.{{meal}}"/>
-                        <span>{{meal}}</span>
-                    </label>
-                </li>
+                    <li>
+                        <label>
+                            <input type="checkbox" name="meal_info.{{meal}}"/>
+                            <span>{{meal}}</span>
+                        </label>
+                    </li>
                 {% endfor %}
             </ul>
             <hr>
@@ -52,39 +52,37 @@
     </div>
     <div class="col s10 cards-column">
         {% for recipe in recipes%}
-        <div class="col s12 l3 recipe-cards-container">
-            <div class="card">
-                <div class="card-image waves-effect waves-block waves-light">
-                    <img class="activator card-image" src="{{recipe.img_url}}">
-                </div>
-                <div class="card-content">
-                    <div class="row">
-                        <div class="col s10">
-                            <span class="card-title activator grey-text text-darken-4">{{recipe.title}}</span>
+            <div class="col s12 l3 recipe-cards-container">
+                <div class="card">
+                    <div class="card-image waves-effect waves-block waves-light">
+                        <img class="activator card-image" src="{{recipe.img_url}}">
+                    </div>
+                    <div class="card-content">
+                        <div class="row">
+                            <div class="col s10">
+                                <span class="card-title activator grey-text text-darken-4">{{recipe.title}}</span>
+                            </div>
+                            <div class="col s2 right-align">
+                                <i class="material-icons small card-icon">more_vert</i>
+                            </div>
                         </div>
-                        <div class="col s2 right-align">
-                            <i class="material-icons small card-icon">more_vert</i>
+                        <div class="col s12 card-link">
+                            <a href="{{url_for('show_recipe', recipe_id=recipe._id)}}" class="">Show recipe</a>
                         </div>
                     </div>
-                    <div class="col s12 card-link">
-                        <a href="{{url_for('show_recipe', recipe_id=recipe._id)}}" class="">Show recipe</a>
+                    <div class="card-reveal">
+                        <span class="card-title grey-text text-darken-4">Dietary Info<i class="material-icons right card-icon">close</i></span>
+                        <ul>
+                            {% for info in recipe.dietary_info %} 
+                                {% if recipe.dietary_info[info] == 'on' %}
+                                    <li>{{info}}</li>
+                                {% endif %} 
+                            {% endfor %}
+                        </ul>
                     </div>
-                </div>
-                <div class="card-reveal">
-                    <span class="card-title grey-text text-darken-4">Dietary Info<i class="material-icons right card-icon">close</i></span>
-                    <ul>
-                        {% for info in recipe.dietary_info %} 
-                            {% if recipe.dietary_info[info] == 'on' %}
-                                <li>{{info}}</li>
-                            {% endif %} 
-                        {% endfor %}
-                    </ul>
                 </div>
             </div>
-        </div>
         {% endfor %}
     </div>
 </div>
-
-
 {% endblock %}

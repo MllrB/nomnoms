@@ -1,47 +1,45 @@
 {% extends 'base.html'%}
 {% block content %}
-    <div class="row container">
-        <div class="row jumbotron">
-            <div class="col s12 fried-egg">
-                    <h1 class="strapline-logo center-align">NomNoms</h1>
-                    <h3 class="strapline center-align">explore and create recipes!</h3>
-            </div>
+<div class="row container">
+    <div class="row jumbotron">
+        <div class="col s12 fried-egg">
+                <h1 class="strapline-logo center-align">NomNoms</h1>
+                <h3 class="strapline center-align">explore and create recipes!</h3>
         </div>
-        <div class="row">
-            <div class="col s12">
-                <div class="col s4 home-card">
-                    <div class="card">
-                        <div class="card-image">
-                            <img src="/static/img/pizza.jpg">
-                        </div>
-                        <div class="card-action gaegu">
-                            <a href="{{ url_for('browse_recipes') }}">browse Recipes</a>
-                        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <div class="col s4 home-card">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="/static/img/pizza.jpg">
+                    </div>
+                    <div class="card-action gaegu">
+                        <a href="{{ url_for('browse_recipes') }}">browse Recipes</a>
                     </div>
                 </div>
-                <div class="col s4 home-card">
-                    <div class="card">
-                        <div class="card-image">
-                            <img src="/static/img/veg.jpg">
-                        </div>
-                        <div class="card-action gaegu">
-                            <a href="{{ url_for('create_recipe') }}">add a recipe</a>
-                        </div>
+            </div>
+            <div class="col s4 home-card">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="/static/img/veg.jpg">
+                    </div>
+                    <div class="card-action gaegu">
+                        <a href="{{ url_for('create_recipe') }}">add a recipe</a>
                     </div>
                 </div>
-                <div class="col s4 home-card">
-                    <div class="card">
-                        <div class="card-image">
-                            <img src="/static/img/edit.jpg">
-                        </div>
-                        <div class="card-action gaegu">
-                            <a href="{{ url_for('edit_recipe') }}">edit your recipes</a>
-                        </div>
+            </div>
+            <div class="col s4 home-card">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="/static/img/edit.jpg">
+                    </div>
+                    <div class="card-action gaegu">
+                        <a href="{{ url_for('edit_recipe') }}">edit your recipes</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
+</div>
 {% endblock %}

@@ -1,53 +1,55 @@
 {% extends 'base.html' %} {% block content %}
 <div class="notebook">
-    <div class="row container">
-        <h3 class="center-align">Choose the recipe you'd like to edit</h3>
-        <div class="col s12">
+    <div class="page-wrapper">
+        <div class="row container">
+            <h3 class="center-align">Choose the recipe you'd like to edit</h3>
+            <div class="col s12">
 
-            {%for recipe in recipes%}
-            <ul class="collapsible">
-                <li>
-                    <form action="{{url_for('recipe_to_update', recipe_id=recipe._id)}}" method="POST">
-                        <div class="collapsible-header">
-                            <div class="col s8 valign-wrapper">
-                                <i class="material-icons header-icon">arrow_drop_down_circle</i>
-                                <span class="collapsible-title">{{recipe.title}}</span>
+                {%for recipe in recipes%}
+                <ul class="collapsible">
+                    <li>
+                        <form action="{{url_for('recipe_to_update', recipe_id=recipe._id)}}" method="POST">
+                            <div class="collapsible-header">
+                                <div class="col s8 valign-wrapper">
+                                    <i class="material-icons header-icon">arrow_drop_down_circle</i>
+                                    <span class="collapsible-title">{{recipe.title}}</span>
+                                </div>
+                                <div class="col s4 right-align">
+                                    <button class="btn waves-effect waves-light" type="submit">Edit
+                                        <i class="material-icons right">edit</i>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="col s4 right-align">
-                                <button class="btn waves-effect waves-light" type="submit">Edit
-                                    <i class="material-icons right">edit</i>
-                                </button>
+                        </form>
+                        <div class="row collapsible-body">
+                            <div class="col s3">
+                                <ul>
+                                    <li><img src="{{recipe.img_url}}" alt="{{recipe.title}}" height="150"></li>
+                                    {% for ingredient in recipe.ingredients %}
+                                    <li>
+                                        {% if ingredient['quantity'] == '' and ingredient['measurement'] == '' %}
+                                        <span>{{ingredient['ingredient_name']}}</span> {% else %}
+                                        <span>{{ingredient['quantity']}} {{ingredient['measurement']}} of {{ingredient['ingredient_name']}}</span> {% endif %}
+                                    </li>
+                                    {% endfor %}
+                                </ul>
                             </div>
-                        </div>
-                    </form>
-                    <div class="row collapsible-body">
-                        <div class="col s3">
-                            <ul>
-                                <li><img src="{{recipe.img_url}}" alt="{{recipe.title}}" height="150"></li>
-                                {% for ingredient in recipe.ingredients %}
-                                <li>
-                                    {% if ingredient['quantity'] == '' and ingredient['measurement'] == '' %}
-                                    <span>{{ingredient['ingredient_name']}}</span> {% else %}
-                                    <span>{{ingredient['quantity']}} {{ingredient['measurement']}} of {{ingredient['ingredient_name']}}</span> {% endif %}
-                                </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                        <div class="col s9">
-                            <ul>
-                                {% for steps in recipe.steps %}
-                                <li>
-                                    <p>{{steps.step}}</p>
-                                </li>
-                                {% endfor %}
-                            </ul>
+                            <div class="col s9">
+                                <ul>
+                                    {% for steps in recipe.steps %}
+                                    <li>
+                                        <p>{{steps.step}}</p>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+
                         </div>
 
-                    </div>
-
-                </li>
-            </ul>
-            {% endfor %}
+                    </li>
+                </ul>
+                {% endfor %}
+            </div>
         </div>
     </div>
 </div>

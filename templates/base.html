@@ -51,6 +51,7 @@
                 <li><a href="{{ url_for('edit_recipe') }}">Remove a recipe</a></li>
             </ul>
         </header>
+
         <main>
         {% block content %} 
         {% endblock %}
@@ -64,7 +65,7 @@
             </div>
             <div class="footer-copyright">
                 <div class="container">
-                images courtesy of <a class="footer-link" href="https://fshoq.com ">https://fshoq.com </a>
+                    images courtesy of <a class="footer-link" href="https://fshoq.com ">https://fshoq.com </a>
                 </div>
                 <div class="container">
                     <a class="right footer-link" href="{{ url_for('edit_recipe') }}"> | remove | </a>
@@ -89,9 +90,7 @@
             $(".button-collapse").sideNav();
         });
     </script>
-    {% block extra_scripts %} 
-    {% endblock %}
-
+    
 </body>
 
 </html>
