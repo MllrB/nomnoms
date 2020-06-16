@@ -181,7 +181,8 @@ def search_recipes():
 
         categories = mongo.db.optionalTypes.find_one({'name': 'recipe_type'})['values']
         recipe_info = mongo.db.optionalTypes.find_one({'name': 'recipe_info'})                        
-        return render_template('browse_recipes.html', recipes=recipes_found, no_of_results=len(recipes_found), categories = categories, recipe_info=recipe_info)
+        return render_template(
+            'browse_recipes.html', recipes=recipes_found, no_of_results=len(recipes_found), categories = categories, recipe_info=recipe_info)
     
     return redirect(url_for('home'))
 
@@ -190,7 +191,7 @@ def create_recipe():
     # displays the create recipe page
     if not 'recipe' in session:
         session['recipe'] = recipe_init()
-        
+
     measurements_list = mongo.db.optionalTypes.find_one({'name': 'measurements'})['values']
     categories = mongo.db.optionalTypes.find_one({'name': 'recipe_type'})['values']
     recipe_info = mongo.db.optionalTypes.find_one({'name': 'recipe_info'})

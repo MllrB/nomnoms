@@ -14,32 +14,32 @@
                     </div>
                     <div class="row">
                         <div class="col s12 input-field ingredient-inputs">
-                            <div class="input-field col s4">
-                                <input id="ingredient" type="text" class="validate" name='ingredient_name'>
+                            <div class="input-field col s4 m4">
+                                <input id="ingredient" type="text" class="validate add-ingredient-input" name='ingredient_name'>
                                 <label for="ingredient">Ingredients</label>
                             </div>
-                            <div class="input-field col s3">
-                                <input id="quantity" type="text" class="validate" name='quantity'>
+                            <div class="input-field col s3 m3">
+                                <input id="quantity" type="text" class="validate add-ingredient-input" name='quantity'>
                                 <label for="quantity">Quantity</label>
                             </div>
-                            <div class="input-field col s4">
+                            <div class="input-field col s3 m4">
                                 <select id="measurements" name='measurement'>
                                     {% for measure in measurements %}
                                         <option value="{{measure}}">{{measure}}</option>
                                     {% endfor %}
                                 </select>
                             </div>
-                            <div class="col s1">
+                            <div class="col s2 m1 add-button">
                                 <button id='add_ingredient' name='add_ingredient' class="btn-floating btn-small waves-effect waves-light green" type="submit"><i class="material-icons">add</i></button>
                             </div>
                             {% for ingredient in recipe.ingredients %}
-                                <div class="col s4">
+                                <div class="col s4 m4">
                                     <input id="icon_prefix" name='ingredient_name_{{ingredient.ingredient_id}}' type="text" class="validate" value="{{ingredient.ingredient_name}}">
                                 </div>
-                                <div class="col s3">
+                                <div class="col s3 m3">
                                     <input id="icon_prefix" name='quantity_{{ingredient.ingredient_id}}' type="text" class="validate" value="{{ingredient.quantity}}">
                                 </div>
-                                <div class="col s4">
+                                <div class="col s3 m4">
                                     <select id="measurements" name="measurement_{{ingredient.ingredient_id}}">
                                         {% for measure in measurements %}
                                             {% if measure == ingredient.measurement %}
@@ -50,7 +50,7 @@
                                         {% endfor %}
                                     </select>
                                 </div>
-                                <div class="col s1">
+                                <div class="col s2 m1 delete-button">
                                     <button id='remove_ingredient' name="remove_ingredient" value="{{ingredient.ingredient_id}}" class="btn-floating btn-small waves-effect waves-light red" type="submit"><i class="material-icons">delete_forever</i></button>
                                 </div>
                             {% endfor %}
@@ -60,15 +60,15 @@
                         <div class="col s12 input-field">
                             Edit Steps: (to remove a step just delete the text and leave it blank) 
                             {% for steps in recipe.steps %}
-                                <div class="col s12">
+                                <div class="col s12 add-step">
                                     <textarea id="steps-input" name="{{steps.step_id}}" class="materialize-textarea">{{steps.step}}</textarea>
                                 </div>
                             {% endfor %}
-                            <div class="input-field col s10">
-                                <textarea id="steps-input" class="materialize-textarea" name="new_step"></textarea>
+                            <div class="input-field col s9 m10 add-step">
+                                <textarea id="steps-input" class="materialize-textarea add-step-text" name="new_step"></textarea>
                                 <label for="steps-input">Add a step</label>
                             </div>
-                            <div class="col s2">
+                            <div class="col s3 m2">
                                 <button id='add_step' name='add_step' value="add a step" class="btn-floating btn-large waves-effect waves-light green" type="submit"><i class="material-icons">add</i></button>
                             </div>
                         </div>
@@ -140,10 +140,10 @@
                             </div>
                         </div>
                         <div class="col s12 m4 center-align">
-                            <img src="{{recipe.img_url}}" alt="Default image of ingredients" height="300px">
+                            <img src="{{recipe.img_url}}" alt="Default image of ingredients" id="add-edit-img">
                         </div>
                         <div class="input-field col s12 center-align">
-                            <button name="save_recipe" value="saved" class="btn waves-effect waves-light" type="submit">Save Recipe
+                            <button id="save-button" name="save_recipe" value="saved" class="btn waves-effect waves-light" type="submit">Save Recipe
                                 <i class="material-icons right">save</i>
                             </button>
                         </div>

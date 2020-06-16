@@ -87,6 +87,10 @@ hr {
     padding-left: 15%;
 }
 
+#add-edit-img {
+    height: 300px;
+}
+
 
 /* select and checkboxes */
 
@@ -203,6 +207,12 @@ textarea.materialize-textarea {
 label,
 .input-field>label {
     color: rgb(143, 141, 79);
+}
+
+.add-ingredient-input,
+.add-step-text {
+    border-bottom: 1px solid #2fb301 !important;
+    box-shadow: 0 1px 0 0 #2fb301 !important;
 }
 
 
@@ -473,6 +483,14 @@ https://stackoverflow.com/users/1014805/jacktheripper */
     font-size: 1.32em;
 }
 
+.add-button {
+    margin-top: 20px;
+}
+
+.delete-button {
+    margin-top: 7px;
+}
+
 
 /* -----------------------------------------
 |******************ICONS*******************|
@@ -563,6 +581,26 @@ nav .label-icon.active .material-icons {
     .btn {
         width: 70%;
     }
+    #save-button {
+        margin: 0;
+        width: 50%;
+    }
+    #add-edit-img {
+        height: auto;
+        width: 90%;
+    }
+    .input-field input[type]:not([readonly]),
+    .input-field input[type]:focus:not([readonly]),
+    .input-field textarea:not([readonly]),
+    .input-field textarea:focus:not([readonly]) {
+        font-size: 0.9em;
+    }
+    .ingredient-input,
+    input[type=text]:not(.browser-default),
+    input.materialize-input,
+    textarea.materialize-textarea {
+        font-size: 0.9em;
+    }
 }
 
 @media only screen and (max-width: 360px) {
@@ -577,24 +615,15 @@ nav .label-icon.active .material-icons {
         padding: 0 15px;
         width: 100%;
     }
+    #save-button {
+        margin: 0;
+        width: 70%;
+    }
+    .add-step {
+        padding: 0 !important;
+    }
     .short-form {
         padding: 0 40px;
-    }
-    .btn-floating .btn-small {
-        width: 20px;
-        height: 20px;
-    }
-    .input-field input[type]:not([readonly]),
-    .input-field input[type]:focus:not([readonly]),
-    .input-field textarea:not([readonly]),
-    .input-field textarea:focus:not([readonly]) {
-        font-size: 0.9em;
-    }
-    .ingredient-input,
-    input[type=text]:not(.browser-default),
-    input.materialize-input,
-    textarea.materialize-textarea {
-        font-size: 0.9em;
     }
     .ingredient-inputs {
         padding: 0 !important;
