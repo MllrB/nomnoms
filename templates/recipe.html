@@ -17,7 +17,7 @@
             <div id="ingredients" class="col s12 ingredients-container">
                 <ul class="recipe-ingredients">
                     {% for ingredient in recipe.ingredients %}
-                    <div class="col s4">
+                    <div class="col s6">
                         {% if ingredient.measurement == 'qty' %} {% if ingredient.quantity == "" %}
                         <li>{{ingredient.ingredient_name}}</li>
                         {% else %}
@@ -32,7 +32,7 @@
                 </ul>
             </div>
             <div id="steps" class="col s12">
-                <div class="col s12">
+                <div class="col s12 recipe-steps-tab">
                     <ul class="recipe-steps left-align">
                         {% for step in recipe.steps %}
                         <li>

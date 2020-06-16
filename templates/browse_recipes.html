@@ -9,8 +9,8 @@
                     <form action="{{url_for('search_recipes')}}" method="POST">
                         <div class="input-field col s12">
                             <input id="search" type="search" name="search_term" class="search_bar" required>
-                            <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-                            <i class="material-icons">close</i>
+                            <label class="label-icon" for="search"><i class="material-icons search-icon">search</i></label>
+                            <i class="material-icons search-icon">close</i>
                         </div>
                     </form>
                 </div>
@@ -52,7 +52,7 @@
             </form>
 
         </div>
-        <div class="col s10">
+        <div class="col s10 cards-column">
 
             {% for recipe in recipes%}
             <div class="col s12 l3 recipe-cards-container">
@@ -69,8 +69,8 @@
                                 <i class="material-icons small card-icon">more_vert</i>
                             </div>
                         </div>
-                        <div class="col s12 card-button">
-                            <a href="{{url_for('show_recipe', recipe_id=recipe._id)}}" class="btn waves-effect waves-light ">Show</a>
+                        <div class="col s12 card-link">
+                            <a href="{{url_for('show_recipe', recipe_id=recipe._id)}}" class="">Show recipe</a>
                         </div>
 
                     </div>

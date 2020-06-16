@@ -50,10 +50,10 @@
                             </div>
                             {% for ingredient in recipe.ingredients %}
                             <div class="col s4">
-                                <input id="icon_prefix" name='ingredient_name_{{ingredient.ingredient_id}}' type="text" class="validate" value="{{ingredient.ingredient_name}}">
+                                <input name='ingredient_name_{{ingredient.ingredient_id}}' type="text" class="validate ingredient-input" value="{{ingredient.ingredient_name}}">
                             </div>
                             <div class="col s3">
-                                <input id="icon_prefix" name='quantity_{{ingredient.ingredient_id}}' type="text" class="validate" value="{{ingredient.quantity}}">
+                                <input name='quantity_{{ingredient.ingredient_id}}' type="text" class="validate" value="{{ingredient.quantity}}">
                             </div>
                             <div class="col s4">
                                 <select id="measurements" name="measurement_{{ingredient.ingredient_id}}">
