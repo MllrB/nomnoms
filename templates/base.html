@@ -12,12 +12,12 @@
 </head>
 
 <body>
-    <div class="body-wrapper">
+    <div id="body-wrapper">
         <header>
             <nav>
                 <div class="nav-wrapper">
                     <a href="{{url_for('home')}}" class="brand-logo swanky">NomNoms</a>
-                    <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                    <a data-target="side-nav" class="sidenav-trigger show-on-medium-and-up"><i class="material-icons burger">menu</i></a>
                     <ul class="right hide-on-med-and-down indie">
                         <li><a class="nav-link" href="{{ url_for('browse_recipes') }}">Browse Recipes</a></li>
                         <li><a class="nav-link" href="{{ url_for('create_recipe') }}">Add a recipe</a></li>
@@ -26,8 +26,8 @@
                         <li>
                             <form action="{{url_for('search_recipes')}}" method="POST">
                                 <div class="input-field">
-                                    <i class="material-icons left">search</i>
-                                    <input id="search" type="search" name="search_term" class="" required> 
+                                    <input id="search" type="search" required>
+                                    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
                                     <i class="material-icons">close</i>
                                 </div>
                             </form>
@@ -35,7 +35,7 @@
                     </ul>
                 </div>
             </nav>            
-            <ul class="sidenav" id="mobile-demo">
+            <ul class="sidenav" id="side-nav">
                 <li>
                             <form action="{{url_for('search_recipes')}}" method="POST">
                                 <div class="input-field">
