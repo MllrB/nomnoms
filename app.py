@@ -13,6 +13,7 @@ app = Flask(__name__)
 app.config["MONGO_DBNAME"] = os.getenv("MONGO_URI")
 app.config["MONGO_URI"] = os.getenv("MONGO_URI")
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
+app.config["DEBUG"] = os.environ["DEVELOPMENT"]
 
 mongo = PyMongo(app)
 
@@ -403,4 +404,4 @@ def delete_recipe(recipe_id):
 
 
 if __name__ =='__main__':
-    app.run(host=os.environ.get('IP'), port=os.environ.get('PORT'), debug=True)
+    app.run(host=os.environ.get('IP'), port=os.environ.get('PORT'), debug=app.config["DEBUG"])
