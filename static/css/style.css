@@ -270,6 +270,14 @@ nav ul a {
     display: inline-block;
 }
 
+.sidenav {
+    padding: 0 40px;
+}
+
+.sidenav li {
+    line-height: 0;
+}
+
 
 /* -----------------------------------------
 |****************HOMEPAGE******************|
@@ -512,6 +520,25 @@ https://stackoverflow.com/users/1014805/jacktheripper */
     margin-top: 7px;
 }
 
+.sidenav {
+    background-image: url(/static/img/card.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#filters-sidenav-trigger {
+    padding-top: 10px;
+    padding-left: 22px;
+    width: 40px;
+    background-color: transparent;
+    box-shadow: none;
+    visibility: hidden;
+}
+
+#filter-button {
+    width: 100%;
+}
+
 
 /* -----------------------------------------
 |******************ICONS*******************|
@@ -553,6 +580,9 @@ nav .label-icon.active .material-icons {
 @media only screen and (max-width: 1024px) {
     .hide-on-med-and-down {
         display: none;
+    }
+    #filters-sidenav-trigger {
+        visibility: visible;
     }
     nav .brand-logo {
         left: 50%;
@@ -667,6 +697,12 @@ nav .label-icon.active .material-icons {
     }
 }
 
+.tiny-screen {
+    margin-left: auto;
+    left: auto;
+    right: auto;
+}
+
 @media only screen and (max-width: 453px) {
     .fried-egg {
         background-size: 70vw;
@@ -682,6 +718,9 @@ nav .label-icon.active .material-icons {
 }
 
 @media only screen and (max-width: 360px) {
+    .row .col .tiny-screen {
+        width: 100%;
+    }
     nav .brand-logo {
         font-size: 3em;
         left: 5%;

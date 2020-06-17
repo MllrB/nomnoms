@@ -1,7 +1,8 @@
 {% extends 'base.html'%}
 {% block content %}
 <div class="row">
-    <div class="col s2 input-field">
+    <a id="filters-sidenav-trigger" data-target="filter-nav" class="sidenav-trigger show-on-medium-and-up btn hide-at-1025px">search/filter</a>
+    <div class="col l2 input-field hide-on-med-and-down" >
         <h5>Search or Filter</h5>
         <div class="col s12 container">
             <div class="row">
@@ -50,9 +51,9 @@
             <hr>
         </form>
     </div>
-    <div class="col s10 cards-column">
+    <div class="col s12 l10 cards-column">
         {% for recipe in recipes%}
-            <div class="col s12 l3 recipe-cards-container">
+            <div class="col tiny-screen s6 m4 l3 recipe-cards-container">
                 <div class="card">
                     <div class="card-image waves-effect waves-block waves-light">
                         <img class="activator card-image" src="{{recipe.img_url}}">
@@ -83,6 +84,54 @@
                 </div>
             </div>
         {% endfor %}
+    </div>
+</div>
+
+<div class="sidenav" id="filter-nav">
+    <h5>Search or Filter</h5>
+                <form action="{{url_for('search_recipes')}}" method="POST">
+                    <div class="input-field col s12">
+                        <input id="sidenav-search" type="search" name="search_term" class="search_bar" required>
+                        <label class="label-icon" for="search"><i class="material-icons search-icon">search</i></label>
+                        <i class="material-icons search-icon">close</i>
+                    </div>
+                </form>
+            
+        <form action="{{url_for('filter_recipes')}}" method="POST">
+            <button id="filter-button" class="btn waves-effect waves-light" type="submit">Filter
+                <i class="material-icons right">find_in_page</i>
+            </button>
+            <select id="category_filter" name='category'>
+                <option value="category" disabled selected>Category</option>
+                {% for category in categories %}
+                    <option value="{{category}}">{{category}}</option>
+                {% endfor %}
+            </select>
+            <ul>
+                <h6>Dietary Info</h6>
+                {% for dietary in recipe_info.dietary %}
+                    <li>
+                        <label>
+                            <input type="checkbox" name="dietary_info.{{dietary}}"/>
+                            <span>{{dietary}}</span>
+                        </label>
+                    </li>
+                {% endfor %}
+            </ul>
+            <hr>
+            <ul>
+                <h6>Meal Type</h6>
+                {% for meal in recipe_info.meal %}
+                    <li>
+                        <label>
+                            <input type="checkbox" name="meal_info.{{meal}}"/>
+                            <span>{{meal}}</span>
+                        </label>
+                    </li>
+                {% endfor %}
+            </ul>
+            <hr>
+        </form>
     </div>
 </div>
 {% endblock %}
