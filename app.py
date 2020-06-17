@@ -256,7 +256,7 @@ def add_recipe():
             new_ingredient = {'ingredient_name': form_values['ingredient_name'],
             'quantity': form_values['quantity'],
             'measurement': form_values['measurement']}
-            
+
             new_ingredients = add_ingredient(recipe, new_ingredient) 
             session['recipe']['ingredients'] = new_ingredients
         elif 'add_step' in request.form:
@@ -442,4 +442,4 @@ def delete_recipe(recipe_id):
 
 
 if __name__ =='__main__':
-    app.run(host=os.environ.get('IP'), port=os.environ.get('PORT'), debug=True)
+    app.run(host=os.environ.get('IP'), port=os.environ.get('PORT'), debug=False)
