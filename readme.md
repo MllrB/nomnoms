@@ -16,25 +16,22 @@ Files and code can be found in my GitHub repository:
 
 _//NomNoms was developed for educational purposes. Recipes are open for anyone to browse and add. There is no user authenication. I'll do my best to moderate but am not responsible for content at any given time._
 
-![alt text](/static/img/nomnoms.png "Movie Buff Preview")
+![alt text](/static/img/nomnoms.png "NomNoms")
 
 ## Contents
 - [UX](#UX)
     - [Project Goals](#Project-Goals)
-    - [My Goals](#My-Goals)
     - [User Stories](#User-Stories)
     - [Design Choices](#Design-Choices)
     - [Fonts](#Fonts)
-- [Wireframes](#Wireframes)
 - [Technologies Used](#Technologies-Used)
     - [Languages](#Languages)
     - [Libraries/Tools](#Libraries/Tools)
     - [Applications](#Applications)
 - [Testing and Bugs](#Testing-and-Bugs)
 - [Deployment](#Deployment)
-    - [GitHub Deployment](#GitHub-Deployment)
-    - [Cloning my MovieBuff Repository](#Cloning-my-MovieBuff-Repository)
-    - [Mllrb.com Deployment](#Mllrb.com-Deployment)
+    - [Heroku Deployment](#Heroku-Deployment)
+    - [Cloning my NomNoms Repository](#Cloning-my-NomNoms-Repository)
 - [Acknowledgements](#Acknowledgements)
 
 ## UX
@@ -60,61 +57,73 @@ For this project I needed to familiarise myself with technologies and frameworks
     * Adding a recipe is quite form heavy so in order to make this process more user friendly I tried to make the form as dynamic as I could. To achieve this dynamic behaviour, I used the Flask session object.
         * The session object is initialised with an empty recipe object that can be updated as the user inputs information. This initialisation occurs when the homepage loads and a check is made on the add recipe page to ensure it exists, which it might not if for example the user navigated directly to the add recipe page from a link external to the website or if the user deletes their recent browser cache.
         * Every time the user presses a button on the add recipes page a form is submitted and the session object is updated with the new information. The page is then reloaded and displays the new information that had just previously been entered by the user. To make this as dynamic as possible:
-            * Changes to steps are logged when the user updates a step
+            * When a new ingredient is added, changes made to any existing information are logged to the session recipe object.
+            * When a new step is added, changes made to any existing information are logged to the session recipe object.
+            * When the save recipe button is clicked, change made to any existing information are first logged to the session recipe object before being inserted as a new document in the database.
 
-4. As a user I would like to be shown my score at the end of each game and where my score ranks against previous attempts.
-    * A current score and leaderboard is displayed at the end of every round for each game type and mode.
-    * The leaderboards are seperated by each game type and each mode within the game types.
-    * The leaderboard scores are persistent but only per session. A page refresh will reset the top scores. Ideally I would prefer the scores to be persistent per user, however, limitations in my knowledge of how to achieve this and time constraints have prevented me from implementing this for this current version.
+4. As a user I would like to be able to correct any mistakes I make when adding a recipe.
+    * The user can edit any of the recipes they have added via the edit recipes links in the navbar or on the homepage.
+    * In order to prevent users from editing other user's recipes, the user must first provide a combination of the name and pin/password they used when creating the recipe.
+    * Exclduing the user's name or pin, the user can edit all recipe information in any of their recipes.
 
-5. As a user I would like to see variation in the questions posed.
-    * I tried to achieve this by shuffling the data set for each game attempt and each round within a game attempt. The player will not be presented with the same correct answer twice in the same round with one caveat... in survival mode and in the unlikely event that the player succeeds in answering all of the available questions correctly, the data set will reset.
-    * If the same correct answers are displayed in subsequent game attempts, they, at least, will not be displayed in the same order and will have different preceding and succeeding questions.
+5. As a user I would like to update my recipes.
+    * As above (4), exclduing the user's name or pin, the user can edit all recipe information in any of their recipes.
+
+6. As a user I would like the ability to remove a recipe.
+    * Using the same name and pin protection as used for editing, the user can delete/remove any of their recipes. 
+    * In order to prevent accidental deletion, I included a modal used as an extra step that the user must pass before the recipe is deleted. This modal simply asks the user to confirm or cancel the deletion of the recipe.
+
+7. As a user I would like to upload my own photos to accompany my recipes.
+    * This is currently beyond the scope of this project as the images would require storage, but this is a feature I would like to introduce in a later version. To allow the user to attach images to their recipes, my workaround is to allow the user to save an image URL as part of their recipe(s).
+
+##### User Stories for later versions
+
+8. As a user I would like to 
+    * build a collection of favourite recipes.
+    * follow other users who's recipes I like or have add to my favourites.
+    * build a shopping list from by selecting recipes I want to try.
+    * maintain a "pantry" so that ingredients that I already have don't appear in my shopping list.
+    * leave feedback and ratings for recipes that I have tried.
+        * Without user authentication, I am unable to deliver these options in a satisfactory and user friendly manner. I would need to ask for a pin and name each time the user tried to access any of these options which would leave scope for bad user experience, for example, through typos or by having to click too many buttons to achieve their goals. With this in mind, I thought it best to leave these for a later version.
 
 
 #### Design Choices
 
-In general, people watch movies in darkened environments whether that be in a theatre or at home. With that in mind, I decided to use a dark background image and for the headings and titles to be slightly dimmed. This decision has the added bonus of directing the user's attention to the game rather than the background or titles.
-
-In a nod to The Movie DB who provide the data that powers the game free of charge, I decided to use similar (but not the same) colors to their logo's primary and secondary colors. I re-colored the background image with a dark blue overlay similar to that of their secondary logo color and the game buttons are styled with a similar color to their primary logo color. 
+I wanted my design to reflect the appearance of a traditional recipe notebook. The background images used are photographs of my own notebook. On the add, edit, remove and recipe pages, the background image includes a spine to further present the appearance of a notebook. On the home page, the browse recipes page, cards and sidenav the bacckground image is a section of notebook paper. For mobile devices, I used the notebook paper image across the site as the spine caused legibility issues on smaller screens. I wanted my font choices to give the impression that the recipes were handwritten. I chose the text colours used with a similar goal in mind.
 
 ##### Fonts
-My choice of fonts were made with the movie industry in mind.
+My choice of fonts:
 
-* Titles: [Google Fonts: Monoton](https://fonts.google.com/specimen/Monoton)
-    * This font reminded me of early cinema movie poster styles.
+* Logo: [Google Fonts: Swanky and Moo Moo](https://fonts.google.com/specimen/Swanky+and+Moo+Moo)
+    * Font name aside, the whimsy this font presented was the main driver in my decision to use it for the logo. I felt it perfectly matched the whimsical nature of my choice of project/application name. I would have also used it for my navigation links too but it was slightly less suitable at smaller text sizes than the "Indie Flower" font I used instead.
 
-* Buttons, tooltips and actor/character names: [Google Fonts: Special Elite](https://fonts.google.com/specimen/Special+Elite)
-    * I chose this font for it's typewriter feel and it's similarity to Courier New which is traditionally used for movie/screenplay scripts.
+* Navbar Fonts: [Google Fonts: Indie Flower](https://fonts.google.com/specimen/Indie+Flower)
+    * I chose this font for it's handwritten look and used it only in the navigation bar. 
 
-* Leaderboard Scores: [Google Fonts: Bungee Inline](https://fonts.google.com/specimen/Bungee+Inline)
-    * I feel that this font falls somewhere between the movie and game styles and is complimentary to the Monoton font used for the titles and for this reason, I used it only for the leaderboard.
+* Main body, buttons, labels, links and cards: [Google Fonts: Gaegu](https://fonts.google.com/specimen/Gaegu)
+    * This was the most appealing font to me due to it's appearance on the notepaper backround images. I felt it was the most suited to the design aesthetic I have attemted to achieve and as such I have used it all over the site. I intentionally used both capitalised and fully lowercase/uppercase sentences with this font to further reinforce the idea of the recipes being handwritten.
 
-## Wireframes
-I first scribbled out my basic idea on paper and then used Microsoft Powerpoint to produce a digital version. [View the pdf version](Assets/Media/moviebuff-wireframes.pdf)
-
-The idea and design were always intended for a landscape viewing aspect and as such, rather than implementing a different design for mobile devices, I decided to implement a disclaimer prior to loading which encourages the user to switch to a landscape view and which would only display when the screen height is greater than it's width.
-
-For the most part, I stuck to the wireframe design with the exception of the leaderboard screen. Initially my design would only show the players score at the end of each game, however, as development progressed I decided that it was necessary and desirable to also show the current top scores.
 
 ## Technologies Used
 
 #### Languages
 * HTML
 * CSS
-* Javascript
+* jQuery
+* Python
+* Jinja
 
 #### Libraries/Tools
 * jQuery
-* Bootstrap
-* FontAwesome
+* MaterializeCSS
 * Google Fonts
 * Git
-* Jasmine
 
 #### Applications
 * Visual Studio Code
 * GitHub
+* Heroku
+* MongoDB
 * Adobe Photoshop
 * MS Powerpoint
 * CPanel
@@ -124,61 +133,38 @@ For the most part, I stuck to the wireframe design with the exception of the lea
 View the testing documentation in the [testing.md file](testing.md)
 
 ## Deployment
-This project has been deployed both on GitHub Pages and on my personal domain.
+This project has been deployed using Heroku. 
 
-#### GitHub Deployment 
-- [GitHub Pages Site](https://mllrb.github.io/MovieBuff/index.html)
+#### Heroku Deployment 
+- [Heroku Deployment](http://ci-ms3-nomnoms.herokuapp.com/home)
 
-First, I navigated to my [MovieBuff Repository](https://github.com/MllrB/MovieBuff) on the GitHub site.
-The default tab selected is the Code tab so from here I selected the Settings tab. I scrolled down the page until I came to the "GitHub Pages" section from where I selected Master Branch as the source. I left the Theme Chooser empty. 
+After logging into my Heroku dashboard via [Heroku's login page](https://id.heroku.com/login), I selected "Create new app" from the dropdown menu at the top right of the dashboard. I typed in my project name and selected Europe as my region. The deployment method was set to Heroku Git by default so I left that as is. I then navigated to the Settings tab and clicked "Reveal Config Vars". From here I set the IP and PORT variables, the MONGO_URI varibale to allow connection to my database and also a SECRET_KEY to allow the app to use the Flask session object.
+From the command line, I initialised a git repository and established a connection to Heroku using the "heroku git:remote -a " command with my application name. I created a requirements file using the pip freeze command and also created a Procfile. I encountered a problem with the creation of the Procfile which appeared to be a result of the filenaming conventions employed by Windows 10. As a workaround, I copied the Procfile text, deleted the inital Procfile i had created and using the Notepad++ text editor, I created a new file, pasted in the Procfile contents and saved it as a "Procfile" with no file extension. This solved the issue of Heroku reading my initial Procfile. I then started the Heroku Dynos from the command line using the "heroku ps:scale web=1" command. Once ready, I pushed my git commits to Heroku using the "git push heroku master" command.
 
-_Note: Although I own a custom domain, owing to the time constraints for the completion of this project and my current lack of knowledge regarding the process, I decided against serving my custom domain from GitHub Pages. This is something I intend to rectify when time is not against me._
+I also created a repository for my code on [GitHub](https://github.com/MllrB/nomnoms) and connected my heroku application to this repository.
 
-#### Cloning my MovieBuff Repository
+#### Cloning my NomNoms Repository
 Should you wish to clone this repository you can do so by:
-1. Navigate to my [MovieBuff Repository](https://github.com/MllrB/MovieBuff).
+1. Navigate to my [NomNom repository](https://github.com/MllrB/nomnoms).
 2. Click the green "Clone or Download" button on the right side of the repository.
-3. Copy the URL displayed `(https://github.com/MllrB/MovieBuff.git)`.
+3. Copy the URL displayed `(https://github.com/MllrB/nomnoms.git)`.
 4. You will need to have Git installed on your system, if you don't, you can find out how [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 5. Open a terminal window and navigate to the folder where you wish to clone this repository.
 6. Initialise Git for this folder by typing "git init".
 7. Type "git clone " followed by the URL you copied on step 3. It should look like this...
-    - `git clone https://github.com/MllrB/MovieBuff.git`
-
-#### Mllrb.com Deployment 
-- [mllrb.com/MovieBuff](http://mllrb.com/MovieBuff/index.html) 
-
-After purchasing the domain from letshost.ie I gained access to their cPanel via the services menu. From here I opened their file manager which allowed me to create the various folders associated with the site. The folders had to be created within the public_html folder already present for the domain. Also, a pre-installed php file which displayed a letshost welcome screen needed to be removed.
-
-Folders: 
-* MovieBuff
-    * Assets
-        * css
-        * js
-        * Media
-
-Once I had created these folders, I uploaded the various application files into their appropriate folders - all accomplished using the cPanel file manager application.
-
-![alt text](Assets/Media/cPanel.png "File Manager example")
-
-For simplicity and to avoid creating any unnecessary bugs, the folder names & structure and file names contained within each folder are identical to that of my GitHub repository with the exception of the Jasmine folder, jasmine test files and jasmine.html file which I deemed unnecessary for this avenue of deployment.
+    - `git clone https://github.com/MllrB/nomnoms.git`
 
 ## Acknowledgements
 
-* All data powering the game is provided by [the Movie DB](https://www.themoviedb.org/)
-* The Movie DB logo also provided by [the Movie DB](https://www.themoviedb.org/)
-* Actor and Movie images hosted by [the Movie DB](https://www.themoviedb.org/)
-* GoldenGlobeAwards trophy image from [goldenglobes.com](https://www.goldenglobes.com/trophy-images) and unedited as stipulated (image resized to allow quick loading)
-* Loading gif from [gifer.com](https://gifer.com/en/3GFW), edited by me to provide transparency
-* Background image courtesy of [creativecommons.org](https://creativecommons.org/publicdomain/zero/1.0/deed.en) via [piqsels.com](https://www.piqsels.com/en/public-domain-photo-jtzfm). Edited by me.
+* All background images used on the site are my own.
+* Homepage card images are courtesy of [fshoq.com](https://fshoq.com)
+* Homepage 'Fried Egg' image provided by [freestockphotos.biz](http://www.freestockphotos.biz/stockphoto/11438)
+* Image used as default image for recipes from [pikrepo.com](https://www.pikrepo.com/fyxnv/illustration-of-person-holding-sign-with-images-of-healthy-food)
+* Image URLS provided by users are outside my current control. This project is for my educational purposes only and not for profit. If you wish for credit to be attributed for an image, please contact me via mllrb.dev@gmail.com 
 * Fonts provided by [Google Fonts](https://fonts.google.com).
-* getRandomIntInclusive function code snippet from [developer.mozilla.org](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random)
-* Array shuffling code snippet from [adamkhoury](http://www.developphp.com/video/JavaScript/Memory-Game-Programming-Tutorial)
 
 
 ------------
-## Finally...
-...I really hope you enjoyed the game :)
 
 
 
