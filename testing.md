@@ -464,3 +464,6 @@ All my media breaks appear to be working correctly.
 Code checked and passed with [pep8online](http://pep8online.com/)
 
 ![alt text](/static/img/pep8.png "pep8online")
+
+
+_//update on code validation. What passed in validation caused errors in the running environment. Lines 242 and 236. Reverted to initial version._

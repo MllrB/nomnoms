@@ -233,15 +233,13 @@ def search_recipes():
                         break
                 if not was_recipe_found:
                     for dietary_info in recipe['dietary_info']:
-                        if search_term in dietary_info.lower()
-                        and recipe['dietary_info'][dietary_info] == 'on':
+                        if search_term in dietary_info.lower() and recipe['dietary_info'][dietary_info] == 'on':
                             recipes_found.append(recipe)
                             was_recipe_found = True
                             break
                     if not was_recipe_found:
                         for meal_info in recipe['meal_info']:
-                            if search_term in meal_info.lower()
-                            and recipe['meal_info'][meal_info] == 'on':
+                            if search_term in meal_info.lower() and recipe['meal_info'][meal_info] == 'on':
                                 recipes_found.append(recipe)
                                 was_recipe_found = True
                                 break
