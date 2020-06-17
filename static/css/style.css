@@ -8,12 +8,19 @@ body {
     background-image: url(/static/img/notepaper.png);
     background-repeat: no-repeat;
     background-size: cover;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
 }
 
 #body-wrapper {
     position: relative;
     width: 99vw;
     overflow-x: hidden;
+}
+
+main {
+    flex: 1 0 auto;
 }
 
 .page-wrapper {
@@ -237,6 +244,10 @@ nav .brand-logo {
 nav ul a {
     text-shadow: -2px 1px 3px #000;
     font-weight: 900;
+}
+
+.page-footer .container {
+    padding: 0;
 }
 
 .page-footer .footer-copyright {
