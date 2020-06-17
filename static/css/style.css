@@ -572,6 +572,12 @@ nav .label-icon.active .material-icons {
     color: transparent !important;
 }
 
+.tiny-screen {
+    margin-left: auto;
+    left: auto;
+    right: auto;
+}
+
 
 /* -----------------------------------------
 |**************MEDIA QUERIES***************|
@@ -695,12 +701,15 @@ nav .label-icon.active .material-icons {
         vertical-align: top;
         line-height: 37px;
     }
-}
-
-.tiny-screen {
-    margin-left: auto;
-    left: auto;
-    right: auto;
+    .recipe-steps {
+        padding-bottom: 60px;
+    }
+    .page-footer {
+        margin-top: 60px;
+    }
+    .recipe-container {
+        height: 675px;
+    }
 }
 
 @media only screen and (max-width: 453px) {
