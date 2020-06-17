@@ -22,8 +22,18 @@ mongo = PyMongo(app)
 
 
 def recipe_init():
-    # initialise blank recipe document to include all possible
-    # options including those not returned by create recipe form
+    """
+    Initialises a blank recipe object 
+    Object structure in place, values are blank or 'off',
+    Stock img URL in place for img_url value
+
+    Args:
+        None
+
+    Returns:
+        Initialised Recipe Object
+
+    """
     blank_recipe = {'title': '',
                     'ingredients': [],
                     'steps': [],
@@ -47,7 +57,16 @@ def recipe_init():
 
 
 def add_step(recipe, new_step_value):
-    # creates a new list of recipe steps
+    """
+    Creates a new list of recipe steps
+
+    Args:
+        recipe: A recipe object
+        new_step_value: String - from form values
+
+    Returns:
+        steps: The old list of steps objects with the new step appended
+    """
     steps = recipe['steps']
     used_ids = []
     for item in steps:
@@ -65,9 +84,17 @@ def add_step(recipe, new_step_value):
 
 
 def remove_ingredient(recipe, ingredient_to_remove):
-    # creates a new list of ingredients by deleting the
-    # selected ingredient based on the button pressed
-    # updates the database before reloading the page
+    """
+    Creates a new list of ingredients by deleting the
+    selected ingredient by ingredient_id.
+
+    Args: 
+        recipe: a recipe object
+        ingredient_to_remove: the ingredient_id of the ingredient to remove
+    Returns:
+        ingredient_list: New list of ingredients less the ingredient_to_remove
+
+    """
     ingredient_list = recipe['ingredients']
     for index, ingredient in enumerate(ingredient_list):
         if ingredient['ingredient_id'] == ingredient_to_remove:
@@ -76,8 +103,17 @@ def remove_ingredient(recipe, ingredient_to_remove):
 
 
 def add_ingredient(recipe, new_ingredient):
-    # creates a new list of ingredients by appending a new
-    # ingredient to the list of ingredient objects from the db
+    """
+    Creates a new list of ingredients by appending a new
+    ingredient to the list of ingredient objects from the db
+
+    Args: 
+        recipe: a recipe object
+        new_ingredient: an ingredient object to add to the recipe
+    Returns:
+        An entire new recipe['ingredients'] list
+    
+    """
 
     # finding the next available/unused ingredient id
     used_ids = []
@@ -104,6 +140,15 @@ def add_ingredient(recipe, new_ingredient):
 
 
 def update_ingredient_values(form_values):
+    """
+    Updates the session['recipe'] object with the latest
+    ingredients submitted via a form
+
+    Args: 
+        form_values: the latest values submitted in POST
+    Returns:
+        no value
+    """
     if 'recipe' in session:
         for value in form_values:
             if 'ingredient_name_' in value:
@@ -119,6 +164,15 @@ def update_ingredient_values(form_values):
 
 
 def update_step_values(form_values):
+    """
+    Updates the session['recipe'] object with the latest
+    steps submitted via a form
+
+    Args: 
+        form_values: the latest values submitted in POST
+    Returns:
+        no value
+    """
     if 'recipe' in session:
         for value in form_values:
             if 'step_' in value:
@@ -129,6 +183,15 @@ def update_step_values(form_values):
 
 
 def update_dietary_and_meal_info(form_values):
+    """
+    Updates the session['recipe'] object with the latest
+    dietary and meal type information submitted via a form
+
+    Args: 
+        form_values: the latest values submitted in POST
+    Returns:
+        no value
+    """
     if 'recipe' in session:
         # reset dietary info prior to overwrite with new selections
         for dict_key in session['recipe']['dietary_info']:
