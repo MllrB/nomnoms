@@ -96,6 +96,32 @@ def add_ingredient(recipe, new_ingredient):
     return recipe['ingredients']
 
 
+def update_ingredient_values(form_values):
+    if 'recipe' in session:
+        for value in form_values:
+            if 'ingredient_name_' in value:
+                ingredient_id = value.split('ingredient_name_')
+                measurement_key = 'measurement_' + ingredient_id[1]
+                qty_key = 'quantity_' + ingredient_id[1]
+                for i in session['recipe']['ingredients']:
+                    if i['ingredient_id'] == ingredient_id[1]:
+                        i['ingredient_name'] = form_values.get(value)
+                        i['quantity'] = form_values.get(qty_key)
+                        i['measurement'] = form_values.get(measurement_key)
+        
+    return
+
+
+def update_step_values(form_values):
+    if 'recipe' in session:
+        for value in form_values:
+            if 'step_' in value:
+                for i in session['recipe']['steps']:
+                    if i['step_id'] == value:
+                        i['step'] = form_values.get(value)
+        
+    return
+
 
 ###################################
 # Routes and associated functions #
@@ -216,18 +242,28 @@ def add_recipe():
 
         if 'remove_ingredient' in request.form:
             # removes an ingredient from the session cookie recipe object
+            update_ingredient_values(form_values)
+            update_step_values(form_values)
+
             ingredient_to_remove = request.form['remove_ingredient']
             new_ingredients = remove_ingredient(recipe, ingredient_to_remove)
             session['recipe']['ingredients'] = new_ingredients
         elif 'add_ingredient' in request.form:
             # adds an ingredient to the session cookie recipe object
+            update_ingredient_values(form_values)
+            update_step_values(form_values)
+
             new_ingredient = {'ingredient_name': form_values['ingredient_name'],
             'quantity': form_values['quantity'],
             'measurement': form_values['measurement']}
+            
             new_ingredients = add_ingredient(recipe, new_ingredient) 
             session['recipe']['ingredients'] = new_ingredients
         elif 'add_step' in request.form:
             # adds a step to the session cookie recipe object
+            update_ingredient_values(form_values)
+            update_step_values(form_values)
+
             new_step_value = form_values['new_step']
             session['recipe']['steps'] = add_step(session['recipe'], new_step_value)
         elif 'save_recipe' in request.form:
@@ -244,6 +280,9 @@ def add_recipe():
                 for dict_key in recipe['meal_info']:
                     if dict_key == form_key:
                         session['recipe']['meal_info'][dict_key] = 'on'
+            
+            update_ingredient_values(form_values)
+            update_step_values(form_values)
             
             mongo.db.scrambledeggs.insert_one(session['recipe'])
             image = session['recipe']['img_url']
@@ -403,4 +442,4 @@ def delete_recipe(recipe_id):
 
 
 if __name__ =='__main__':
-    app.run(host=os.environ.get('IP'), port=os.environ.get('PORT'), debug=False)
+    app.run(host=os.environ.get('IP'), port=os.environ.get('PORT'), debug=True)
