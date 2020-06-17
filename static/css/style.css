@@ -282,6 +282,10 @@ nav ul a {
     line-height: 0;
 }
 
+#sidenav-search-bar {
+    padding-left: 25px;
+}
+
 
 /* -----------------------------------------
 |****************HOMEPAGE******************|
@@ -750,6 +754,9 @@ nav .label-icon.active .material-icons {
     }
     .delete-btn {
         width: 100%;
+    }
+    .card .card-content .card-title {
+        font-size: 1.3em;
     }
 }
 
