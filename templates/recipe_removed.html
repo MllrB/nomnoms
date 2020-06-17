@@ -5,19 +5,18 @@
     <div class="notebook">
         <div class="row container">
             <div class="col s12">
-                <h5> {{message}} </h5>
+                <h5 class="center-align"> {{message}} </h5>
             </div>
-            <div class="col s12 m6">
-                <a href="{{ url_for('create_recipe') }}" class="btn waves-effect waves-light" type="submit">add a recipe
+            <div class="col s12 m6 center-align">
+                <a href="{{ url_for('create_recipe') }}" id="add-recipe-btn" class="btn waves-effect waves-light" type="submit">add a recipe
                     <i class="material-icons right">add</i>
                 </a>
             </div>
-            <div class="col s12 m6">
-                <a href="{{ url_for('remove_recipe') }}" class="btn waves-effect waves-light" type="submit">delete another
+            <div class="col s12 m6 center-align">
+                <a href="{{ url_for('remove_recipe') }}" id="browse-recipes-btn" class="btn waves-effect waves-light" type="submit">delete another
                     <i class="material-icons right">delete</i>
                 </a>
             </div>
-
         </div>
     </div>
 </div>

@@ -246,9 +246,10 @@ def add_recipe():
                         session['recipe']['meal_info'][dict_key] = 'on'
             
             mongo.db.scrambledeggs.insert_one(session['recipe'])
+            image = session['recipe']['img_url']
             session['recipe'] = recipe_init()
             
-            return render_template('recipe_saved.html')
+            return render_template('recipe_saved.html', title=form_values['title'], image=image)
 
     return redirect(url_for('create_recipe'))
 
