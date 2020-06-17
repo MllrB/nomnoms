@@ -122,6 +122,30 @@ def update_step_values(form_values):
         
     return
 
+def update_dietary_and_meal_info(form_values):
+    if 'recipe' in session:
+        # reset dietary info prior to overwrite with new selections
+        for dict_key in session['recipe']['dietary_info']:
+            session['recipe']['dietary_info'][dict_key] = 'off'
+            
+        # reset meal type info prior to overwrite with new selections
+        for dict_key in session['recipe']['meal_info']:
+            session['recipe']['meal_info'][dict_key] = 'off'
+            
+        for form_key in form_values:
+            # update dietary info
+            for dict_key in session['recipe']['dietary_info']:
+                if dict_key == form_key:
+                    session['recipe']['dietary_info'][dict_key] = 'on'
+           
+            # update meal type
+            for dict_key in session['recipe']['meal_info']:
+                if dict_key == form_key:
+                    session['recipe']['meal_info'][dict_key] = 'on'
+    
+    return
+
+
 
 ###################################
 # Routes and associated functions #
@@ -234,8 +258,13 @@ def add_recipe():
         session['recipe']['owner'] = form_values['owner'].lower()
         session['recipe']['pin'] = form_values['pin']
         session['recipe']['title'] = form_values['title']
+        session['recipe']['category'] = form_values['category']
+        update_dietary_and_meal_info(form_values)
+
         if form_values['img_url'] != '':
                 session['recipe']['img_url'] = form_values['img_url']
+
+        
         
         recipe = session.get('recipe')
         session.modified = True
@@ -244,6 +273,7 @@ def add_recipe():
             # removes an ingredient from the session cookie recipe object
             update_ingredient_values(form_values)
             update_step_values(form_values)
+            update_dietary_and_meal_info(form_values)
 
             ingredient_to_remove = request.form['remove_ingredient']
             new_ingredients = remove_ingredient(recipe, ingredient_to_remove)
@@ -252,6 +282,7 @@ def add_recipe():
             # adds an ingredient to the session cookie recipe object
             update_ingredient_values(form_values)
             update_step_values(form_values)
+            update_dietary_and_meal_info(form_values)
 
             new_ingredient = {'ingredient_name': form_values['ingredient_name'],
             'quantity': form_values['quantity'],
@@ -263,6 +294,7 @@ def add_recipe():
             # adds a step to the session cookie recipe object
             update_ingredient_values(form_values)
             update_step_values(form_values)
+            update_dietary_and_meal_info(form_values)
 
             new_step_value = form_values['new_step']
             session['recipe']['steps'] = add_step(session['recipe'], new_step_value)
@@ -270,20 +302,11 @@ def add_recipe():
             session['recipe']['category'] = form_values['category']
             # remove unnecessary fields and values before further processing
             del form_values['ingredient_name'], form_values['quantity'], form_values['measurement']
-
-            for form_key in form_values:
-                # update dietary info
-                for dict_key in recipe['dietary_info']:
-                    if dict_key == form_key:
-                        session['recipe']['dietary_info'][dict_key] = 'on'
-                # update meal type
-                for dict_key in recipe['meal_info']:
-                    if dict_key == form_key:
-                        session['recipe']['meal_info'][dict_key] = 'on'
             
             update_ingredient_values(form_values)
             update_step_values(form_values)
-            
+            update_dietary_and_meal_info(form_values)
+
             mongo.db.scrambledeggs.insert_one(session['recipe'])
             image = session['recipe']['img_url']
             session['recipe'] = recipe_init()

@@ -16,7 +16,7 @@ Files and code can be found in my GitHub repository:
 
 _//NomNoms was developed for educational purposes. Recipes are open for anyone to browse and add. There is no user authenication. I'll do my best to moderate but am not responsible for content at any given time._
 
-![alt text](http://mllrb.com/MovieBuff/Assets/Media/3GFW-readme.gif "Movie Buff Preview")
+![alt text](/static/img/nomnoms.png "Movie Buff Preview")
 
 ## Contents
 - [UX](#UX)
@@ -40,28 +40,27 @@ _//NomNoms was developed for educational purposes. Recipes are open for anyone t
 ## UX
 
 ### Project Goals
-I approached this project with a view to improving my knowledge of retrieving data from API's, manipulating this data and applying logic to present the data interactively. The suggestions for this project were to either build an interactive app that used data from an external API to present options to a user or to create a game (a memory game in particular). I didn't want to miss out on furthering my knowledge of API use but neither could I pass up the opportunity to try and make a game and so my goal for this project was to try and incorporate both in one application.
-
-#### My Goals
-- Use The Movie DB API to retrieve data.
-- Structure the data retrieved for use within the game.
-- Develop the logical operations necessary for the game progression and also for the presentation of the data in an easy and intuitive manner.
+For this project I needed to familiarise myself with technologies and frameworks new to me, Python, Flask, MongoDB and Heroku. Using these technologies I intended to create a recipe sharing web application that would allow users to create, update and delete their own recipes and to find recipes created by other users. 
 
 #### User Stories
-1. As a first time user I would like the game to be easy to access and understand.
-    * To satisfy this demand, I decided to present the game with a very simple menu. Both game types displayed first and then the 2 available modes on the next screen. 
-    * On a desktop or laptop device, the user is shown the game rules via a Bootstrap popover/tooltip. For mobile devices this tooltip is displayed automatically. This is true for both game type and game mode buttons.
+1. As a user I would like to find recipes to prepare myself.
+    * To achieve this I made a "browse recipes" page with search and filtering options. 
+    * The search allows the user to find recipes from keywords in the recipe title, ingredients, category(sweet, savoury, basics, drinks), dietary information (vegetarian, dairy free, nut free etc...) and meal types (breakfast, lunch, dinner etc...).
+    * The user can also fileter recipes by category, dietary information and meal types or a combination of all three
+    * On desktop/laptop devices, the search and filter functionalities are displayed on the page. On mobile devices the search and filter functionalities are accessible via a side navigation panel triggered by a button on the page
+    * Each recipe can be viewed on it's own page by selecting "show recipe" from the browse recipes page
 
-2. As a user I would like the game to have multiple ways to play.
-    * I decided to try to satisfy this by offering two game types...
-        * 3 of a Kind: The player is presented with 3 actors and 3 movies. The objective of the game is to choose the movie that connects/starred the 3 actors.
-        * Role Play: The player is presented with 3 movies and 3 character names. The objective of the game is to choose the movie that featured the 3 characters.
-    * In addition to the 2 game types, each game type also offers 2 modes...
-        * Casual: The player plays 10 rounds and tries to achieve a 10/10 score.
-        * Survival: The player has only one life. The game ends with the first incorrect answer and the aim is to score as high as possible.
+2. As a user I would like to easily access the list of ingredients while following the steps for a recipe.
+    * One of the common complaints I heard about recipe websites in general is the need to constantly scroll up and down the page to switch between ingredients and steps. To address this, I decided to use tabs; A tab for ingredients and a tab for steps which allows the user to easily switch between the two.
+    * I also included a scroll bar for the steps tab so that the available tabs would always be visible even if the list of steps is long. As a bonus, this method also preserves the user's position in the steps list. That is, if a user is a few steps in and needs to switch to the ingredients tab, when they switch back to the steps tab they will see the step they were previously on.
+    
 
-3. As a user I would like varying degrees of difficulty.
-    * I would have liked to offer various difficulty levels via a selectable option, however, this would require much more data processing which would lead to a longer loading time and, besides for which, difficulty in this game is quite subjective since each player's movie knowledge will differ. Also, in order to achieve that, my own movie knowledge would need to be significantly better than it is! Having played through the game numerous times while testing, I think a difficulty gradient is achieved given that the Role Play game type is more difficult and requires greater movie knowledge than the 3 of a Kind game type. That said, in most cases the questions posed are not too difficult as the player can chose the correct answer by process of elimination. Initially the Role Play game difficulty level was quite high so, in order to reduce the difficulty, I implemented a separate data set that omits movies below a certain popularity level and, of those, only includes the movies with a release date after 1970.
+3. As a user I would like the ability to add my own recipes
+    * The user can add recipes via the add recipes links in the navigation bar, a homepage card and buttons on the recipe pages and after the user has added or removed a recipe.
+    * Adding a recipe is quite form heavy so in order to make this process more user friendly I tried to make the form as dynamic as I could. To achieve this dynamic behaviour, I used the Flask session object.
+        * The session object is initialised with an empty recipe object that can be updated as the user inputs information. This initialisation occurs when the homepage loads and a check is made on the add recipe page to ensure it exists, which it might not if for example the user navigated directly to the add recipe page from a link external to the website or if the user deletes their recent browser cache.
+        * Every time the user presses a button on the add recipes page a form is submitted and the session object is updated with the new information. The page is then reloaded and displays the new information that had just previously been entered by the user. To make this as dynamic as possible:
+            * Changes to steps are logged when the user updates a step
 
 4. As a user I would like to be shown my score at the end of each game and where my score ranks against previous attempts.
     * A current score and leaderboard is displayed at the end of every round for each game type and mode.
